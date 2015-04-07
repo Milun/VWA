@@ -1,0 +1,16 @@
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\CircusCharlie.exe
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\CircusCharlie.pdb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\CircusCharlie.csprojResolveAssemblyReference.cache
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\CircusCharlie.exe
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\CircusCharlie.pdb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_wall.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_line.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_black.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cursor.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_select.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cross.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_white.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_bg.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_ball.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_special.xnb

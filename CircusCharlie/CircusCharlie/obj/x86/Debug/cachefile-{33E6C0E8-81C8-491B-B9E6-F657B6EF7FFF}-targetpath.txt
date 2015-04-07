@@ -1,0 +1,10 @@
+Content\Sprites\spr_wall.xnb
+Content\Sprites\spr_line.xnb
+Content\Sprites\spr_black.xnb
+Content\Sprites\spr_cursor.xnb
+Content\Sprites\spr_select.xnb
+Content\Sprites\spr_cross.xnb
+Content\Sprites\spr_white.xnb
+Content\Sprites\spr_bg.xnb
+Content\Sprites\spr_ball.xnb
+Content\Sprites\spr_special.xnb
