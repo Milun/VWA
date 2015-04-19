@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cursor.xnb</Output>
-      <Time>2015-03-24T19:07:04.8361798+11:00</Time>
+      <Time>2015-04-14T23:32:16.5739909+11:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_select.png</Source>
@@ -90,6 +90,51 @@
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_special.xnb</Output>
       <Time>2015-04-07T13:37:21.8439036+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_monitor.png</Source>
+      <Name>Sprites\spr_monitor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_monitor.xnb</Output>
+      <Time>2015-04-07T18:40:32.1155637+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_circle.png</Source>
+      <Name>Sprites\spr_circle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_circle.xnb</Output>
+      <Time>2015-04-08T21:54:05.7057635+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_pyramid.png</Source>
+      <Name>Sprites\spr_pyramid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_pyramid.xnb</Output>
+      <Time>2015-04-10T15:26:17.4576848+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_tools.png</Source>
+      <Name>Sprites\spr_tools</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_tools.xnb</Output>
+      <Time>2015-04-10T20:55:06.4217637+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Arial.spritefont</Source>
+      <Name>Arial</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Arial.xnb</Output>
+      <Time>2015-04-15T11:37:07.0895949+11:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

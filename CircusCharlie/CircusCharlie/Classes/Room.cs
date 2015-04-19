@@ -28,13 +28,18 @@ namespace CircusCharlie.Classes
             actors = new Dictionary<IntVector2D, Actor>();
 
             cols = new List<Col>();
+
+            
+        }
+
+        public Vector2 GetRoomSize()
+        {
+            return new Vector2(mapWidth * Global.gridSize, mapHeight * Global.gridSize);
         }
 
         public Tile GetTile(int x, int y)
         {
-            if (x >= mapWidth || y >= mapHeight || x < 0 || y < 0) return null;
-
-            return null;
+            return tiles[new IntVector2D(x, y)];
         }
 
         public void SetActor(IntVector2D v, Actor actor)
@@ -63,6 +68,8 @@ namespace CircusCharlie.Classes
 
         public Vector2 CheckCol(Actor other)
         {
+            // Lag caused by large amount of sprites.
+
             Vector2 output = Vector2.Zero;
 
             foreach (Col e in cols)
@@ -73,16 +80,11 @@ namespace CircusCharlie.Classes
             
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
-                Vector2 col = other.CheckCol(e.Value);
+                Vector2 col = e.Value.CheckCol(other);
 
                 if (col != Vector2.Zero)
                 {
-                    output += col;
-
-                    if (col.Y != 0f)
-                    {
-                        e.Value.Destroy();
-                    }
+                    output -= col;
                 }
             }
 
@@ -105,13 +107,58 @@ namespace CircusCharlie.Classes
             // check collision function which returns a vector.
             // This way the ACTORS can check the type of thing they're colliding with (you pass the other actor to them).
 
+
+            //// TO DO LIST!!!
+            // Make it sort the collisions from top left to bottom right.
+            // Do an int for down and right. First go DOWN (if possible) then add 1 to down, then go right and check.
+            // Remove as you go. At the end just add a collision for the amount of down and right you have x 24.
+
+
+            List<IntVector2D> temp = new List<IntVector2D>();
             foreach (KeyValuePair<IntVector2D, Tile> e in tiles)
             {
-                cols.Add(new ColSquare(new Vector2(e.Key.X * 24, e.Key.Y * 24),
+                temp.Add(e.Key);
+
+                e.Value.SetNeighbours(tiles.ContainsKey(new IntVector2D(e.Key.X, e.Key.Y - 1)),
+                                      tiles.ContainsKey(new IntVector2D(e.Key.X + 1, e.Key.Y)),
+                                      tiles.ContainsKey(new IntVector2D(e.Key.X, e.Key.Y + 1)),
+                                      tiles.ContainsKey(new IntVector2D(e.Key.X - 1, e.Key.Y)));
+            }
+
+            while (temp.Count > 0)
+            {
+                Vector2 pos = new Vector2(temp[0].X, temp[0].Y);
+                Vector2 size = new Vector2(24, 24);
+
+                bool horizontal = true;
+                bool vertical = true;
+
+                IntVector2D start = temp[0] + new IntVector2D(1,0);
+                temp.RemoveAt(0);
+
+                while (temp.Contains(start))
+                {
+                    size += new Vector2(24, 0);
+                    temp.Remove(start);
+                    start += new IntVector2D(1, 0);
+                }
+
+                cols.Add(new ColSquare(pos*24f,
                                        Vector2.Zero,
-                                       new Vector2(24, 24)));
+                                       size));
+            }
+
+            //foreach (IntVector2D e in temp)
+            {
+
+
+                /*cols.Add(new ColSquare(new Vector2(e.Key.X * 24, e.Key.Y * 24),
+                                       Vector2.Zero,
+                                       new Vector2(24, 24)));*/
             }
         }
+
+        //private void 
 
         public void StopRoom()
         {
@@ -187,7 +234,7 @@ namespace CircusCharlie.Classes
                         int posX = reader.ReadInt32();
                         int posY = reader.ReadInt32();
 
-                        Actor block = new Block(new IntVector2D(posX, posY), _block);
+                        Actor block = new Block(new Vector2(posX, posY), _block);
 
                         actors.Add(new IntVector2D(posX, posY), block);
                     }

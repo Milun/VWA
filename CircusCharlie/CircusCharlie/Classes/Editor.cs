@@ -21,9 +21,13 @@ namespace CircusCharlie.Classes
         Texture2D texCross;
         Texture2D texSelect;
         Texture2D texBall;
+        Texture2D texTools;
+
+        public static SpriteFont font;
 
         Sprite sprBlock;
 
+        public static Sprite sprCircle;
         public static Sprite sprDebug; // For use by other classes for debug.
         public static Color colorDebug;
 
@@ -47,6 +51,8 @@ namespace CircusCharlie.Classes
         private const int TILESMAP_X = 24;
         private const int TILESMAP_Y = 48;
 
+        private const int TOOLS_Y = 544;
+
         private const int COLORSMENU_X = 744;
         private const int COLORSMENU_Y = 456;
 
@@ -56,7 +62,12 @@ namespace CircusCharlie.Classes
         IntVector2D currentRoom;
         IntVector2D currentTileSelect;
         IntVector2D currentCOLORSelect;
+        IntVector2D currentActorSelect;
         Tile currentTile = null;
+
+        IntVector2D roomPos;
+        IntVector2D roomPosLast;
+        IntVector2D roomPosLastMouse;
 
         public static Color[] COLORS;
 
@@ -67,6 +78,13 @@ namespace CircusCharlie.Classes
         // Constructor
         public Editor(SpriteBatch _spriteBatch, ContentManager Content)
         {
+            roomPos = new IntVector2D();
+            roomPosLast = new IntVector2D();
+            roomPosLastMouse = new IntVector2D();
+
+            font = Content.Load<SpriteFont>("Arial");
+
+
             spriteBatch = _spriteBatch;
 
             mainGame = new MainGame(_spriteBatch, Content);
@@ -85,11 +103,20 @@ namespace CircusCharlie.Classes
             texCursor = Content.Load<Texture2D>("Sprites/spr_cursor");
             texSelect = Content.Load<Texture2D>("Sprites/spr_select");
             texCross = Content.Load<Texture2D>("Sprites/spr_cross");
-            
+            texTools = Content.Load<Texture2D>("Sprites/spr_tools");
+
+            Color[] data = new Color[texWhite.Width * texWhite.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.White;
+            }
+            texWhite.SetData<Color>(data);
 
             colorDebug = new Color(255, 0, 0, 80);
             sprDebug = new Sprite(texWhite,
                                   ref spriteBatch);
+            sprCircle = new Sprite(Content.Load<Texture2D>("Sprites/spr_tools"),
+                                   ref spriteBatch);
 
             currentRoom = new IntVector2D(11, 11);
             rooms = new Room[ROOMSMAP, ROOMSMAP];
@@ -152,6 +179,11 @@ namespace CircusCharlie.Classes
             RecolorMenu();
 
             LoadMap();
+
+            rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D(5,5), new Enemy(new Vector2(96,118), new Sprite(Content.Load<Texture2D>("Sprites/spr_pyramid"),
+                                   ref spriteBatch, 48, 48)));
+            
+            currentActorSelect = new IntVector2D(0, 0);
         }
 
         private void SaveCurrentMap()
@@ -228,7 +260,12 @@ namespace CircusCharlie.Classes
             spriteBatch.Draw(texSelect, new Rectangle(COLORSMENU_X + currentCOLORSelect.X * Global.gridSize,
                                                       COLORSMENU_Y + currentCOLORSelect.Y * Global.gridSize,
                                                       Global.gridSize,
-                                                      Global.gridSize), Color.White);
+                                                      Global.gridSize), Color.LimeGreen);
+
+            spriteBatch.Draw(texSelect, new Rectangle(currentActorSelect.X * Global.gridSize,
+                                                      TOOLS_Y + currentActorSelect.Y * Global.gridSize,
+                                                      Global.gridSize,
+                                                      Global.gridSize), Color.LimeGreen);
         }
 
         private void DrawColorMenu()
@@ -248,35 +285,44 @@ namespace CircusCharlie.Classes
         private void DrawTileMap()
         {
             // Draw tiles
-            rooms[currentRoom.X, currentRoom.Y].Draw(new IntVector2D(0,0));
+            rooms[currentRoom.X, currentRoom.Y].Draw(new IntVector2D());
 
             // Draw grid
-            if (!showGrid) return;
-
-            for (int i = -1; i < mapWidth; i++)
+            if (showGrid)
             {
-                Rectangle rec = new Rectangle(i * Global.gridSize,
-                                              0,
-                                              1,
-                                              Global.gridSize * mapHeight);
 
-                spriteBatch.Draw(texLine, rec, Color.White);
-            }
-            for (int i = -1; i < mapHeight; i++)
-            {
-                Rectangle rec = new Rectangle(0,
-                                              i * Global.gridSize,
-                                              Global.gridSize * mapWidth,
-                                              1);
+                for (int i = -1; i < 64; i++)
+                {
+                    Rectangle rec = new Rectangle(i * Global.gridSize - (int)Global.viewCenter.X,
+                                                  0,
+                                                  1,
+                                                  Global.gridSize * mapHeight);
 
-                spriteBatch.Draw(texLine, rec, Color.White);
+                    spriteBatch.Draw(texLine, rec, Color.White);
+                }
+                for (int i = -1; i < 64; i++)
+                {
+                    Rectangle rec = new Rectangle(0,
+                                                  i * Global.gridSize - (int)Global.viewCenter.Y,
+                                                  Global.gridSize * mapWidth,
+                                                  1);
+
+                    spriteBatch.Draw(texLine, rec, Color.White);
+                }
             }
+            // Draw overlap.
+            sprDebug.Draw(new IntVector2D(696, 0), new IntVector2D(310, 800), Color.DarkGray);
+            sprDebug.Draw(new IntVector2D(0, 528), new IntVector2D(800, 310), Color.DarkGray);
         }
 
         private void SelectTileMap()
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt)) return;
+
             if (Mouse.GetState().LeftButton != ButtonState.Pressed &&
                 Mouse.GetState().RightButton != ButtonState.Pressed) return;
+
+            if (Mouse.GetState().X >= 696 || Mouse.GetState().Y >= 528) return;
 
             IntVector2D mouse = GetMouseMenuPos();
             if (mouse == new IntVector2D(-1, -1)) return;
@@ -291,7 +337,7 @@ namespace CircusCharlie.Classes
             // Create block
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
             {
-                Block block = new Block(mouse, sprBlock);
+                Block block = new Block(new Vector2(mouse.X, mouse.Y), sprBlock);
                 rooms[currentRoom.X, currentRoom.Y].SetActor(mouse, block);
                 return;
             }
@@ -308,15 +354,15 @@ namespace CircusCharlie.Classes
 
         private IntVector2D GetMouseMenuPos()
         {
-            int x = Mouse.GetState().X;
-            int y = Mouse.GetState().Y;
+            int x = Mouse.GetState().X+(int)Global.viewCenter.X;
+            int y = Mouse.GetState().Y+(int)Global.viewCenter.Y;
 
             x = x / Global.gridSize;
             y = y / Global.gridSize;
 
-            if (x < 0 || x >= mapWidth ||
+            /*if (x < 0 || x >= mapWidth ||
                 y < 0 || y >= mapHeight) return new IntVector2D(-1, -1);
-
+            */
             return new IntVector2D(x, y);
         }
 
@@ -369,16 +415,14 @@ namespace CircusCharlie.Classes
             {
                 for (int j = 0; j < 16; j++)
                 {
-                    tilesMenu[i, j].DrawShadow(new IntVector2D(0,0));
+                    tilesMenu[i,j].DrawEditor();
                 }
             }
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 16; j++)
-                {
-                    tilesMenu[i,j].Draw();
-                }
-            }
+        }
+
+        private void DrawCurrentActor()
+        {
+
         }
 
         private void DrawCurrentTile()
@@ -414,7 +458,30 @@ namespace CircusCharlie.Classes
             if (!gameRunning)
             {
                 gameRunning = true;
-                mainGame.InitGame(ref rooms[currentRoom.X, currentRoom.Y], new IntVector2D((int)(Mouse.GetState().X), (int)(Mouse.GetState().Y)));
+                mainGame.InitGame(ref rooms[currentRoom.X, currentRoom.Y], new IntVector2D((int)(Mouse.GetState().X + Global.viewCenter.X), (int)(Mouse.GetState().Y + Global.viewCenter.Y)));
+            }
+        }
+
+        public void MoveRoom()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                // Set initial location the mouse was.
+                if (roomPosLastMouse.X == 0 && roomPosLastMouse.Y == 0)
+                {
+                    roomPosLastMouse = new IntVector2D(Mouse.GetState().X, Mouse.GetState().Y);
+                }
+
+                // Move room
+                roomPos = roomPosLast + roomPosLastMouse - new IntVector2D(Mouse.GetState().X, Mouse.GetState().Y);
+
+                Global.viewCenter = new Vector2(roomPos.X, roomPos.Y);
+            }
+            else
+            {
+                roomPosLastMouse.X = 0;
+                roomPosLastMouse.Y = 0;
+                roomPosLast = roomPos;
             }
         }
 
@@ -425,13 +492,17 @@ namespace CircusCharlie.Classes
                 LaunchGame();
                 DrawTileMap();
 
-                rooms[currentRoom.X, currentRoom.Y].DrawShadow(new IntVector2D(0,0));
-                rooms[currentRoom.X, currentRoom.Y].Draw(new IntVector2D(0, 0));
+                //rooms[currentRoom.X, currentRoom.Y].DrawShadow(roomPos);
+                //rooms[currentRoom.X, currentRoom.Y].Draw(roomPos);
 
                 DrawTileMenu();
                 DrawColorMenu();
 
                 DrawCurrentTile();
+                
+
+                spriteBatch.Draw(texTools, new Rectangle(0, TOOLS_Y, 384, 96), new Rectangle(0, 0, 128, 32), Color.White);
+
                 DrawSelect();
 
                 if (isActive)
@@ -442,6 +513,8 @@ namespace CircusCharlie.Classes
 
                         SaveCurrentMap();
                         ToggleGrid();
+
+                        MoveRoom();
                 }
             }
             else
@@ -453,6 +526,7 @@ namespace CircusCharlie.Classes
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) || rooms[currentRoom.X, currentRoom.Y].IsLevelComplete())
                 {
+                    roomPos = new IntVector2D((int)Global.viewCenter.X, (int)Global.viewCenter.Y);
                     mainGame.StopGame();
                     gameRunning = false;
                 }
@@ -467,13 +541,42 @@ namespace CircusCharlie.Classes
                                                         24,
                                                         24), Color.White);
             }
+            else if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt))
+            {
+                spriteBatch.Draw(texCursor, new Rectangle(Mouse.GetState().X,
+                                                          Mouse.GetState().Y,
+                                                          12,
+                                                          19),
+                                            new Rectangle(12,
+                                                          0,
+                                                          12,
+                                                          19), Color.White);
+            }
             else
             { 
                 spriteBatch.Draw(texCursor, new Rectangle(Mouse.GetState().X,
                                                           Mouse.GetState().Y,
                                                           12,
+                                                          19),
+                                            new Rectangle(0,
+                                                          0,
+                                                          12,
                                                           19), Color.White);
             }
+
+            sprDebug.DrawView(Global.viewCenter, Color.White);
+
+            spriteBatch.DrawString(font,
+                                   "X: " + (Global.viewCenter.X + Global.viewSize.X) + " Y: " + (Global.viewCenter.Y + Global.viewSize.Y),
+                                   new Vector2(20, 20),
+                                   Color.White);
+
+            Tile temp = rooms[currentRoom.X, currentRoom.Y].GetTile(0,0);
+
+            spriteBatch.DrawString(font,
+                                   "X: " + temp.getPos().X + " Y: " + temp.getPos().Y,
+                                   new Vector2(20, 40),
+                                   Color.White);
         }
     }
 }

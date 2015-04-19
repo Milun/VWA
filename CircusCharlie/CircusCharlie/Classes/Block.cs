@@ -12,10 +12,9 @@ namespace CircusCharlie.Classes
 {
     class Block : Actor
     {
-        private IntVector2D pos;
         private Sprite spr;
 
-        public Block(IntVector2D _pos, Sprite _spr) : base()
+        public Block(Vector2 _pos, Sprite _spr) : base()
         {
             pos = _pos;
             spr = _spr;
@@ -26,8 +25,24 @@ namespace CircusCharlie.Classes
         {
             if (destroyed) return;
 
-            spr.DrawView(pos*Global.gridSize, new IntVector2D(48, 24), Color.Aquamarine);
+            spr.DrawView(pos * Global.gridSize, new IntVector2D(48, 24), Color.Aquamarine);
             DrawCol();
+        }
+
+        protected override void ActorCol(Actor other, Vector2 collision)
+        {
+            if (!IsAlive()) return;
+
+            // If it collides with the ball, destroy the block!
+            if (other.GetType() == typeof(Ball))
+            {
+                if ((collision.Y > 0f && other.GetValue("yspeed") < 0f) ||
+                    (collision.Y < 0f && other.GetValue("yspeed") > 0f))
+                {
+                    Destroy();
+                    return;
+                }
+            }
         }
 
     }

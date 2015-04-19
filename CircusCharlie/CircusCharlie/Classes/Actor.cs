@@ -11,6 +11,7 @@ namespace CircusCharlie.Classes
     class Actor
     {
         protected bool destroyed = false;
+        protected Vector2 pos = Vector2.Zero;
 
         public List<Col> cols;
 
@@ -72,7 +73,20 @@ namespace CircusCharlie.Classes
                 }
             }
 
+            // Act on a collision if it occurs.
+            if (output != Vector2.Zero) ActorCol(other, output);
+
             return output;
+        }
+
+        protected virtual void ActorCol(Actor other, Vector2 collision)
+        {
+            return;
+        }
+
+        public virtual float GetValue(string name)
+        {
+            return 0f;
         }
 
         public virtual Vector2 CheckCol(Col other)
@@ -92,6 +106,14 @@ namespace CircusCharlie.Classes
             foreach (Col e in cols)
             {
                 e.DrawDebug();
+            }
+        }
+
+        public void UpdateCol()
+        {
+            foreach (Col e in cols)
+            {
+                e.UpdatePos(pos);
             }
         }
     }

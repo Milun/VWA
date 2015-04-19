@@ -9,6 +9,11 @@ namespace CircusCharlie.Classes
     {
         public int X, Y = 0;
 
+        public IntVector2D()
+        {
+            X = 0;
+            Y = 0;
+        }
         public IntVector2D(int _X, int _Y)
         {
             X = _X;
