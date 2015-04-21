@@ -15,11 +15,18 @@ namespace CircusCharlie.Classes
         Texture2D texBG;
         Texture2D texMonitor;
         Sprite sprBall;
+        Sprite sprBg;
 
         SpriteBatch spriteBatch;
         Ball ball;
         public static Room room;
 
+        Cube test;
+
+        // 3D 
+
+
+        // Temporary.
         float temp = 0f;
         bool bounce = false;
 
@@ -28,12 +35,20 @@ namespace CircusCharlie.Classes
         {
             spriteBatch = _spriteBatch;
             sprBall = new Sprite(Content.Load<Texture2D>("Sprites/spr_ball"), ref spriteBatch);
-            ball = new Ball(sprBall);
 
+            ball = new Ball(sprBall);
+            
             texBG = Content.Load<Texture2D>("Sprites/spr_bg");
             texMonitor = Content.Load<Texture2D>("Sprites/spr_monitor");
 
+            sprBg = new Sprite(texBG, ref spriteBatch, 3380, 2560);
+
             Global.viewSize = new Vector2(Game1.SCREENWIDTH / 4f, Game1.SCREENHEIGHT / 4f);
+
+            test = new Cube(sprBall,
+                            new Vector2(300, 100),
+                            new Vector2(24f,24f),
+                            0.0f, 4.0f);
         }
 
         public void InitGame(ref Room _room, IntVector2D startPos)
@@ -57,10 +72,32 @@ namespace CircusCharlie.Classes
         public void DrawBackdrop()
         {
             // Draw black backdrop
-            spriteBatch.Draw(texBG, new Rectangle((int)(ball.GetPos().X/-2f)-50,
+            /*spriteBatch.Draw(texBG, new Rectangle((int)(ball.GetPos().X/-2f)-50,
                                                   (int)(ball.GetPos().Y/-2f)-50,
                                                   1392,
-                                                  1056), Color.White);
+                                                  1056), Color.White);*/
+
+            sprBg.Draw3D(Vector2.Zero, Color.White, 0.8f);
+
+            //DrawCheckerboard();
+
+            int y = 600;
+            Vector2 v = Global.Get3DRatio(new Vector2(400f, 500f));
+            int ySegments = (int)(-200f*v.Y)+200;
+            for (int i = 0; i < ySegments; i++)
+            {
+                //if (i % 10 == 0) continue;
+
+                Editor.sprDebug.DrawView(new Vector2(-200f*(float)i/ySegments*v.X, y-i),
+                                         new IntVector2D((int)(800f-400f*(float)i/ySegments),
+                                                         (int)(1f)),
+                                         Color.ForestGreen); // PROPER ALPHA
+            }
+
+            sprBall.Draw3D(new Vector2(200f,y), Color.White, 0.99f);
+
+            sprBall.Draw3D(new Vector2(200f, y), Color.White, 0f);
+
 
             if (bounce)
             {
@@ -72,7 +109,7 @@ namespace CircusCharlie.Classes
                 temp -= 0.003f;
                 if (temp <= 0.0f) bounce = true;
             }
-            sprBall.Draw3D(Vector2.One * 100f, new Color(1f-temp, 1f-temp, 1f-temp), temp);
+            //sprBall.Draw3D(Vector2.One * 100f, new Color(1f-temp, 1f-temp, 1f-temp), temp);
 
             /*
             spriteBatch.Draw(texMonitor, new Rectangle((int)(-Global.viewCenter.X * Global.viewZoom) + 330,
@@ -157,12 +194,14 @@ namespace CircusCharlie.Classes
 
         private void DrawCheckerboard()
         {
+            // Investigate what causes lag.
+
             float width = 350f;
             int invertAmm = 50;
             int invertCurrent = invertAmm;
             float invert = 0f;
 
-            float y = 300f;
+            float y = 500f;
 
             for (int i = 0; i < 300; i++)
             {
@@ -257,6 +296,8 @@ namespace CircusCharlie.Classes
             ball.Draw();
 
             Global.SetViewCenter(ball.GetPos());
+
+            test.DrawMain();
         }
     }
 }

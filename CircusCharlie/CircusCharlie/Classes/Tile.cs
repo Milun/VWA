@@ -154,6 +154,7 @@ namespace CircusCharlie.Classes
 
         public void DrawShadow(IntVector2D _pos)
         {
+
             /*************************/
 
 
