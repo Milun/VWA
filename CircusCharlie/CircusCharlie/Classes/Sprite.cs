@@ -81,19 +81,57 @@ namespace CircusCharlie.Classes
                                                     size.Y), color);
         }
 
-        public void Draw(IntVector2D pos, IntVector2D off, int rotate, float scale, Color color)
+        public void DrawView(Vector2 pos, Vector2 size, Vector2 off, Vector2 offSize, Color color)
         {
-            Rectangle mask = new Rectangle(off.X, off.Y, width, height);
+            if (texture == null) return;
 
-            if (texture != null) spriteBatch.Draw(texture,
-                                                  new Vector2(pos.X + width / 2 * scale, pos.Y + height / 2 * scale),
-                                                  mask,
-                                                  color,
-                                                  (float)(rotate) * 90 * 3.14159f / 180.0f,
-                                                  new Vector2(width / 2, height / 2),
-                                                  scale,
-                                                  SpriteEffects.None,
-                                                  1);
+            spriteBatch.Draw(texture, new Rectangle((int)(pos.X * Global.viewZoom - Global.viewCenter.X * Global.viewZoom),
+                                                    (int)(pos.Y * Global.viewZoom - Global.viewCenter.Y * Global.viewZoom),
+                                                    (int)(size.X * Global.viewZoom),
+                                                    (int)(size.Y * Global.viewZoom)),
+                                      new Rectangle((int)(off.X),
+                                                    (int)(off.Y),
+                                                    (int)(offSize.X),
+                                                    (int)(offSize.Y)),
+                                                    color);
+        }
+
+        public void DrawView(Vector2 pos, Vector2 size, Vector2 off, Vector2 offSize, Color color, bool flipX, bool flipY)
+        {
+            if (texture == null) return;
+
+            SpriteEffects se = SpriteEffects.None;
+            float rotation = 0f;
+            Vector2 addPos = Vector2.Zero;
+
+            if (flipX && flipY)
+            {
+                rotation = 180f*3.14159f/180f;
+                addPos = Vector2.One;
+            }
+            else if (flipX)
+            {
+                se = SpriteEffects.FlipHorizontally;
+            }
+            else if (flipY)
+            {
+                se = SpriteEffects.FlipVertically;
+            }
+
+            spriteBatch.Draw(texture, new Rectangle((int)((pos.X) * Global.viewZoom - Global.viewCenter.X * Global.viewZoom + size.X*Global.viewZoom*addPos.X),
+                                                    (int)((pos.Y) * Global.viewZoom - Global.viewCenter.Y * Global.viewZoom + size.Y*Global.viewZoom*addPos.Y),
+                                                    (int)(size.X * Global.viewZoom),
+                                                    (int)(size.Y * Global.viewZoom)),
+                                      new Rectangle((int)(off.X),
+                                                    (int)(off.Y),
+                                                    (int)(offSize.X),
+                                                    (int)(offSize.Y)),
+                                                    color,
+                                                    rotation,
+                                                    Vector2.Zero,
+                                                    se,
+                                                    0f
+                                                    );
         }
 
         public void DrawView(Vector2 pos, Color color)
@@ -106,7 +144,7 @@ namespace CircusCharlie.Classes
                                                     (int)(height *Global.viewZoom)), color);
         }
 
-        public void Draw3D(Vector2 pos, Color color, float z)
+        /*public void Draw3D(Vector2 pos, Color color, float z)
         {
             if (texture == null) return;
 
@@ -114,7 +152,7 @@ namespace CircusCharlie.Classes
                                                     (int)(pos.Y * Global.viewZoom - Global.viewCenter.Y * Global.viewZoom + Global.Get3DRatio(pos).Y * z * 500f - (height - height * z) / 2f),
                                                     (int)((width -width *z) * Global.viewZoom),
                                                     (int)((height-height*z) * Global.viewZoom)), color);
-        }
+        }*/
 
         public void DrawView(Vector2 pos, IntVector2D size, Color color)
         {
@@ -124,22 +162,6 @@ namespace CircusCharlie.Classes
                                                     (int)(pos.Y * Global.viewZoom - Global.viewCenter.Y * Global.viewZoom),
                                                     (int)(size.X * Global.viewZoom),
                                                     (int)(size.Y * Global.viewZoom)), color);
-        }
-
-        public void DrawView(Vector2 pos, IntVector2D off, int rotate, float scale, Color color)
-        {
-            Rectangle mask = new Rectangle(off.X, off.Y, width, height);
-
-            if (texture != null) spriteBatch.Draw(texture,
-                                                  new Vector2(pos.X * Global.viewZoom + width / 2 * scale * Global.viewZoom - Global.viewCenter.X * Global.viewZoom,
-                                                              pos.Y * Global.viewZoom + height / 2 * scale * Global.viewZoom - Global.viewCenter.Y * Global.viewZoom),
-                                                  mask,
-                                                  color,
-                                                  (float)(rotate) * 90 * 3.14159f / 180.0f,
-                                                  new Vector2(width / 2, height / 2),
-                                                  scale * Global.viewZoom,
-                                                  SpriteEffects.None,
-                                                  1);
         }
     }
 }

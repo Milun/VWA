@@ -14,21 +14,28 @@ namespace CircusCharlie.Classes
     {
         private Sprite spr;
 
-        private const float BALLSIZE = 16f;
-        private float YSPEED = 2f;
-        private const float XSPEED = 1.5f;
+        private const float BALLSIZE = 0.66f;
+        private float YSPEED = 1/12f;
+        private const float XSPEED = 1/16f;
 
-        private float xSpeed = 1f;
-        private float ySpeed = 2f;
+        private float xSpeed = 0f;
+        private float ySpeed = 1/12f;
         private float ySpeedAdd = 0f;
+
+        public Model model;
+
+        private Vector2 startPos;
 
         public Ball(Sprite _spr) : base()
         {
             spr = _spr;
+            startPos = pos;
 
             AddCol(new ColCircle(pos,
                                  new Vector2(0, 0),
                                  BALLSIZE));
+
+            model = MainGame.content.Load<Model>("Sprites/cube");
         }
 
         public float GetYspeed()
@@ -45,6 +52,7 @@ namespace CircusCharlie.Classes
         {
             pos = new Vector2(_pos.X, _pos.Y);
             UpdateCol(pos);
+            startPos = pos;
         }
 
 
@@ -60,12 +68,32 @@ namespace CircusCharlie.Classes
             // Move first
             if (collision.X >= 0f && Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                pos -= new Vector2(XSPEED, 0);
+                if (xSpeed > -XSPEED)
+                { 
+                    xSpeed -= 0.01f;
+                }
             }
-            if (collision.X <= 0f &&  Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (collision.X <= 0f && Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                pos += new Vector2(XSPEED, 0);
+                if (xSpeed < XSPEED)
+                {
+                    xSpeed += 0.01f;
+                }
             }
+            else
+            {
+                // Softly push the ball out of the wall.
+                // Important to leave a bit of the wall still inside to prevent the ball from jittering.
+                // Crud we still get the clip bounce...
+                if (Math.Abs(collision.X) >= 0.01f)
+                { 
+                    pos.X -= (collision.X/Global.gridSize)/100f;
+                }
+                xSpeed = 0f;
+            }
+
+            pos += new Vector2(xSpeed, 0);
+
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 ySpeedAdd = -YSPEED / 2f;
@@ -92,19 +120,31 @@ namespace CircusCharlie.Classes
 
         public override void Draw()
         {
-            Color shadow = new Color(0, 0, 0, 100);
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = Matrix.CreateTranslation(new Vector3(pos.X,
+                                                                        pos.Y,
+                                                                        0f));
+                    effect.View = MainGame.matrixView;
+                    effect.Projection = MainGame.matrixProj;
 
-            /*spr.DrawView(new IntVector2D((int)(pos.X + 2 - BALLSIZE / 2f), (int)(pos.Y + 2 - BALLSIZE / 2f)),
-                     new IntVector2D((int)BALLSIZE + 1, (int)BALLSIZE+1), shadow);
-            */
+                    //effect.TextureEnabled = true;
+                    //effect.Texture = spr.GetTexture();
+                    
 
-            spr.DrawView(new Vector2(pos.X - BALLSIZE / 2f,
-                                     pos.Y - BALLSIZE / 2f),
-                         new IntVector2D((int)BALLSIZE,
-                                         (int)BALLSIZE), Color.White);
+                    effect.EnableDefaultLighting();
+                    //effect.LightingEnabled = true; // turn on the lighting subsystem.
+                    effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f);
+                    effect.EmissiveColor = new Vector3(1, 0, 0);
+                }
+
+                mesh.Draw();
+            }
 
             
-            DrawCol();
+            DrawCol(Editor.colorDebug2);
 
             Move();
 
@@ -116,6 +156,13 @@ namespace CircusCharlie.Classes
             if (name == "yspeed") return ySpeed;
 
             return 0f;
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            pos = startPos;
         }
 
     }

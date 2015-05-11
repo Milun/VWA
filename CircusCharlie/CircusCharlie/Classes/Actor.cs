@@ -49,7 +49,22 @@ namespace CircusCharlie.Classes
             destroyed = false;
         }
 
+        public virtual void Reset()
+        {
+            destroyed = false;
+        }
+
         public virtual void Draw()
+        {
+
+        }
+
+        public Vector2 GetPos()
+        {
+            return pos;
+        }
+
+        public virtual void DrawEditor()
         {
 
         }
@@ -89,8 +104,15 @@ namespace CircusCharlie.Classes
             return 0f;
         }
 
+        public virtual void PassMsg(string msg)
+        {
+            return;
+        }
+
         public virtual Vector2 CheckCol(Col other)
         {
+            if (!IsAlive()) return Vector2.Zero;
+
             Vector2 output = Vector2.Zero;
 
             foreach (Col e in cols)
@@ -101,11 +123,11 @@ namespace CircusCharlie.Classes
             return output;
         }
 
-        public void DrawCol()
+        public void DrawCol(Color color)
         {
             foreach (Col e in cols)
             {
-                e.DrawDebug();
+                e.DrawDebug(color);
             }
         }
 

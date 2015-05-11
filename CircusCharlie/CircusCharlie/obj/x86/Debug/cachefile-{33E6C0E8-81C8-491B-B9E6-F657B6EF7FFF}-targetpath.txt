@@ -1,5 +1,5 @@
-Content\Sprites\spr_wall.xnb
 Content\Sprites\spr_line.xnb
+Content\Sprites\spr_wall.xnb
 Content\Sprites\spr_black.xnb
 Content\Sprites\spr_cursor.xnb
 Content\Sprites\spr_select.xnb
@@ -12,4 +12,11 @@ Content\Sprites\spr_monitor.xnb
 Content\Sprites\spr_circle.xnb
 Content\Sprites\spr_pyramid.xnb
 Content\Sprites\spr_tools.xnb
+Content\Sprites\spr_wall_1.xnb
 Content\Arial.xnb
+Content\Sprites\cube.xnb
+Content\Sprites\spr_trees.xnb
+Content\Sprites\burger.xnb
+Content\Sprites\spr_burger.xnb
+Content\Sprites\spr_statue.xnb
+Content\Sprites\spr_head.xnb

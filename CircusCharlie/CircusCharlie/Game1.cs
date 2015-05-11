@@ -21,11 +21,17 @@ namespace CircusCharlie
         public static int SCREENWIDTH = 1000;
         public static int SCREENHEIGHT = 650;
 
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private static List<Classes.Quad> quads;
+        private static List<Classes.Quad> quadsTrans;
 
         public Game1()
         {
+            quads = new List<Classes.Quad>();
+            quadsTrans = new List<Classes.Quad>();
+
             graphics = new GraphicsDeviceManager(this);
 
             // Change screen size.
@@ -46,12 +52,17 @@ namespace CircusCharlie
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
 
             base.Initialize();
 
+            //rasterizerState.CullMode = CullMode.CullCounterClockwise;
+
+
 
         }
+
+        Texture2D texture;
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -62,9 +73,31 @@ namespace CircusCharlie
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            texture = Content.Load<Texture2D>("Sprites/spr_ball");
+
+
+            //quadEffect.Texture = texture;
+
+
+            /*vertexDeclaration = new VertexDeclaration(new VertexElement[]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
+                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+                }
+            );*/
+
+
+
             // TODO: use this.Content to load your game content here
 
+
+
+
+
             editor = new Classes.Editor(spriteBatch, this.Content);
+
+
         }
 
         /// <summary>
@@ -108,10 +141,11 @@ namespace CircusCharlie
                               DepthStencilState.None,
                               RasterizerState.CullNone);
 
-            // Only do things when the game is active.
-            editor.DrawShadow(IsActive);
-
             spriteBatch.End();
+
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;   // Enable proper depth.
+            GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;       // Pixelated mode for models.
+            GraphicsDevice.RasterizerState = RasterizerState.CullClockwise; // Backface
 
             spriteBatch.Begin(SpriteSortMode.Deferred,
                               BlendState.AlphaBlend,
@@ -121,10 +155,61 @@ namespace CircusCharlie
 
             // Only do things when the game is active.
             editor.Draw(IsActive);
-            
+
+            /********/
+            /*      */
+            /*  3D  */
+            /*      */
+            /********/
+
+            foreach (EffectPass pass in Classes.MainGame.quadEffect.CurrentTechnique.Passes)
+            {
+                // Draw solid quads.
+                for (int i = 0; i < quads.Count; i++)
+                {
+                    Classes.MainGame.quadEffect.Texture = quads[i].Tex;
+                    Classes.MainGame.quadEffect.Alpha = quads[i].Alpha;
+                    pass.Apply();
+
+                    GraphicsDevice.DrawUserIndexedPrimitives
+                    <VertexPositionNormalTexture>(
+                    PrimitiveType.TriangleList,
+                    quads[i].Vertices, 0, 4,
+                    quads[i].Indexes, 0, 2);
+                }
+
+                // Need to draw transparent quads afterwards.
+                for (int i = 0; i < quadsTrans.Count; i++)
+                {
+                    Classes.MainGame.quadEffect.Texture = quadsTrans[i].Tex;
+                    Classes.MainGame.quadEffect.Alpha = quadsTrans[i].Alpha;
+                    pass.Apply();
+
+                    GraphicsDevice.DrawUserIndexedPrimitives
+                    <VertexPositionNormalTexture>(
+                    PrimitiveType.TriangleList,
+                    quadsTrans[i].Vertices, 0, 4,
+                    quadsTrans[i].Indexes, 0, 2);
+                }
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
+
+            // Clear the Quads because I don't see a better way of doing this.
+            quads.Clear();
+            quadsTrans.Clear();
+        }
+
+        public static void AddQuad(ref Classes.Quad quad)
+        {
+            quads.Add(quad);
+        }
+
+        public static void AddQuadTrans(ref Classes.Quad quad)
+        {
+            quadsTrans.Add(quad);
         }
     }
 }

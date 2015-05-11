@@ -2,15 +2,6 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Sprites\spr_wall.png</Source>
-      <Name>Sprites\spr_wall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_wall.xnb</Output>
-      <Time>2015-04-03T18:38:14.9862296+11:00</Time>
-    </Item>
-    <Item>
       <Source>Sprites\spr_line.png</Source>
       <Name>Sprites\spr_line</Name>
       <Importer>TextureImporter</Importer>
@@ -18,6 +9,15 @@
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_line.xnb</Output>
       <Time>2015-03-24T19:01:05.5035332+11:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_wall.png</Source>
+      <Name>Sprites\spr_wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_wall.xnb</Output>
+      <Time>2015-04-03T18:38:14.9862296+11:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_black.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cursor.xnb</Output>
-      <Time>2015-04-14T23:32:16.5739909+11:00</Time>
+      <Time>2015-04-14T22:32:16.5739909+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_select.png</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_select.xnb</Output>
-      <Time>2015-04-07T13:27:56.6403748+11:00</Time>
+      <Time>2015-04-07T12:27:56.6403748+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_cross.png</Source>
@@ -71,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_bg.xnb</Output>
-      <Time>2015-04-03T15:36:20.7734386+11:00</Time>
+      <Time>2015-04-25T15:44:17.5646035+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_ball.png</Source>
@@ -89,7 +89,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_special.xnb</Output>
-      <Time>2015-04-07T13:37:21.8439036+11:00</Time>
+      <Time>2015-04-07T12:37:21.8439036+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_monitor.png</Source>
@@ -98,7 +98,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_monitor.xnb</Output>
-      <Time>2015-04-07T18:40:32.1155637+11:00</Time>
+      <Time>2015-04-07T17:40:32.1155637+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_circle.png</Source>
@@ -107,7 +107,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_circle.xnb</Output>
-      <Time>2015-04-08T21:54:05.7057635+11:00</Time>
+      <Time>2015-04-08T20:54:05.7057635+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_pyramid.png</Source>
@@ -116,7 +116,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_pyramid.xnb</Output>
-      <Time>2015-04-10T15:26:17.4576848+11:00</Time>
+      <Time>2015-04-10T14:26:17.4576848+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_tools.png</Source>
@@ -125,7 +125,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_tools.xnb</Output>
-      <Time>2015-04-10T20:55:06.4217637+11:00</Time>
+      <Time>2015-05-04T11:26:14.4542447+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_wall_1.png</Source>
+      <Name>Sprites\spr_wall_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_wall_1.xnb</Output>
+      <Time>2015-04-26T14:22:16.3583417+10:00</Time>
     </Item>
     <Item>
       <Source>Arial.spritefont</Source>
@@ -134,7 +143,83 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Arial.xnb</Output>
-      <Time>2015-04-15T11:37:07.0895949+11:00</Time>
+      <Time>2015-04-15T10:37:07.0895949+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\cube.fbx</Source>
+      <Name>Sprites\cube</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\cube.xnb</Output>
+      <Time>2015-04-25T14:39:00.3737938+10:00</Time>
+      <Dependency>
+        <Key>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\cube_0.xml</Key>
+        <Value>2015-04-25T14:55:45.5592092+10:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Sprites\cube.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\cube_0.xml</Output>
+      <Time>2015-04-25T14:39:00.3737938+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_trees.png</Source>
+      <Name>Sprites\spr_trees</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_trees.xnb</Output>
+      <Time>2015-04-25T15:52:18.2625344+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\burger.fbx</Source>
+      <Name>Sprites\burger</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\burger.xnb</Output>
+      <Time>2015-04-26T01:21:14.5881856+10:00</Time>
+      <Dependency>
+        <Key>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\burger_0.xml</Key>
+        <Value>2015-04-26T01:21:17.5684981+10:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Sprites\burger.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\burger_0.xml</Output>
+      <Time>2015-04-26T01:21:14.5881856+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_burger.png</Source>
+      <Name>Sprites\spr_burger</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_burger.xnb</Output>
+      <Time>2015-05-12T00:16:59.5897468+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_statue.png</Source>
+      <Name>Sprites\spr_statue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_statue.xnb</Output>
+      <Time>2015-04-29T20:50:54.3354582+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_head.png</Source>
+      <Name>Sprites\spr_head</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_head.xnb</Output>
+      <Time>2015-05-04T11:29:08.0797829+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -151,27 +236,27 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
-        <Value>2011-09-01T17:22:30+12:00</Value>
+        <Value>2011-09-01T15:22:30+10:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>

@@ -13,7 +13,7 @@ namespace CircusCharlie.Classes
         private Vector2 origin; // Relative
         private float diamater;   // Relative
 
-        private const float leeway = 1f;
+        private const float leeway = 1/24f;
 
         public ColCircle(Vector2 _pos, Vector2 _origin, float _diameter)
         {
@@ -25,12 +25,12 @@ namespace CircusCharlie.Classes
             bR = pos + origin + new Vector2(diamater/2f, diamater/2f);
         }
 
-        public override void DrawDebug()
+        public override void DrawDebug(Color color)
         {
             if (!Editor.showDebug) return;
 
-            Editor.sprCircle.Draw(new IntVector2D((int)tL.X, (int)tL.Y),
-                                  new IntVector2D((int)diamater, (int)diamater), Editor.colorDebug);
+            Editor.sprCircle.Draw(new IntVector2D((int)(tL.X*Global.gridSize), (int)(tL.Y*Global.gridSize)),
+                                  new IntVector2D((int)(diamater * Global.gridSize), (int)(diamater * Global.gridSize)), color);
         }
 
         public Vector2 Center

@@ -24,7 +24,7 @@ namespace CircusCharlie.Classes
             pos = _pos;
         }
 
-        public virtual void DrawDebug()
+        public virtual void DrawDebug(Color color)
         {
             return;
         }

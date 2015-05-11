@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics" xmlns:Framework="Microsoft.Xna.Framework">
+  <Asset Type="Graphics:MeshContent">
+    <Name>Cube</Name>
+    <Identity>
+      <SourceFilename>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlieContent\Sprites\burger.fbx</SourceFilename>
+      <SourceTool>FbxImporter</SourceTool>
+    </Identity>
+    <Transform>100 -7.450578E-07 1.509958E-05 0 1.509958E-05 7.54978964E-06 -100 0 7.45056639E-07 100 7.54979E-06 0 0 0 0 1</Transform>
+    <Positions>-2.94541E-07 1.00000012 4.76837158E-07 -7.450581E-09 1 2 2.00000048 1.00000036 1.99999976 1.9999994 1.00000036 -4.47034836E-07 -6.27832833E-07 1.192091E-07 7.15255737E-07 7.321412E-07 5.394525E-14 2.00000072 2.00000048 2.870906E-07 1.9999994 1.99999976 4.84773864E-07 2.98023188E-08</Positions>
+    <Geometry>
+      <Batch>
+        <Material>#Resource1</Material>
+        <Indices>2 1 0 0 3 2 6 5 4 4 7 6 10 9 8 8 11 10 14 13 12 12 15 14 18 17 16 16 19 18</Indices>
+        <Vertices>
+          <PositionIndices>0 3 2 1 4 5 6 7 0 1 5 4 2 3 7 6 4 7 3 0</PositionIndices>
+          <Channels>
+            <VertexChannel Name="Normal0" ElementType="Framework:Vector3">1.49011584E-07 -1 0 1.49011584E-07 -1 0 1.49011584E-07 -1 0 1.49011584E-07 -1 0 -1.6316379E-07 1 7.922321E-08 -1.6316379E-07 1 7.922321E-08 -1.6316379E-07 1 7.922321E-08 -1.6316379E-07 1 7.922321E-08 1 2.03149767E-07 -4.11766166E-07 1 2.03149767E-07 -4.11766166E-07 1 2.03149767E-07 -4.11766166E-07 1 2.03149767E-07 -4.11766166E-07 -1 0 4.47034864E-07 -1 0 4.47034864E-07 -1 0 4.47034864E-07 -1 0 4.47034864E-07 4.02331352E-07 3.57627869E-07 1 4.02331352E-07 3.57627869E-07 1 4.02331352E-07 3.57627869E-07 1 4.02331352E-07 3.57627869E-07 1</VertexChannel>
+            <VertexChannel Name="TextureCoordinate0" ElementType="Framework:Vector2">0.4916685 0.713251233 0.559833646 0.713251233 0.559833646 0.766924143 0.491668433 0.766924143 0.348493218 0.407291 0.3484933 0.218274951 0.646440148 0.218274951 0.646440148 0.407291055 0.199238777 0.7536479 0.8015784 0.7536478 0.801578 0.31921792 0.199238539 0.319218159 0.199617624 0.7536479 0.80076164 0.753648043 0.80076164 0.319218457 0.199617475 0.319218457 0.199238539 0.319218159 0.80076164 0.319218457 0.80076164 0.753648043 0.199238777 0.7536479</VertexChannel>
+          </Channels>
+        </Vertices>
+      </Batch>
+    </Geometry>
+  </Asset>
+  <Resources>
+    <Resource ID="#Resource1" Type="Graphics:BasicMaterialContent">
+      <Name>Material</Name>
+      <Identity>
+        <SourceFilename>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlieContent\Sprites\burger.fbx</SourceFilename>
+        <SourceTool>FbxImporter</SourceTool>
+      </Identity>
+      <OpaqueData>
+        <Data Key="DiffuseColor" Type="Framework:Vector3">0.640000045 0.640000045 0.640000045</Data>
+        <Data Key="EmissiveColor" Type="Framework:Vector3">0 0 0</Data>
+        <Data Key="Alpha" Type="float">1</Data>
+        <Data Key="SpecularColor" Type="Framework:Vector3">0.25 0.25 0.25</Data>
+        <Data Key="SpecularPower" Type="float">9.607843</Data>
+      </OpaqueData>
+    </Resource>
+  </Resources>
+</XnaContent>

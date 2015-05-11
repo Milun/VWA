@@ -13,7 +13,7 @@ namespace CircusCharlie.Classes
         private Vector2 origin; // Relative
         private Vector2 size;   // Relative
 
-        private const float leeway = 1f;
+        private const float leeway = 1/24f;
 
         public ColSquare(Vector2 _pos, Vector2 _origin, Vector2 _size)
         {
@@ -44,12 +44,14 @@ namespace CircusCharlie.Classes
             bR = pos + origin + size;
         }
 
-        public override void DrawDebug()
+        public override void DrawDebug(Color color)
         {
             if (!Editor.showDebug) return;
 
-            Editor.sprDebug.Draw(new IntVector2D((int)tL.X+1, (int)tL.Y+1),
-                                 new IntVector2D((int)size.X-2, (int)size.Y-2), Editor.colorDebug);
+            Editor.sprDebug.Draw(new IntVector2D((int)(tL.X*Global.gridSize+1),
+                                                 (int)(tL.Y*Global.gridSize+1)),
+                                 new IntVector2D((int)(size.X*Global.gridSize-2),
+                                                 (int)(size.Y*Global.gridSize-2)), color);
         }
 
         public Vector2 Center

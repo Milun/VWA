@@ -78,6 +78,7 @@
     <Compile Include="Classes\Actor.cs" />
     <Compile Include="Classes\Animation.cs" />
     <Compile Include="Classes\Ball.cs" />
+    <Compile Include="Classes\Billboard.cs" />
     <Compile Include="Classes\Block.cs" />
     <Compile Include="Classes\Col.cs" />
     <Compile Include="Classes\ColCircle.cs" />
@@ -85,9 +86,14 @@
     <Compile Include="Classes\Cube.cs" />
     <Compile Include="Classes\Editor.cs" />
     <Compile Include="Classes\Enemy.cs" />
+    <Compile Include="Classes\EnemyBullet.cs" />
+    <Compile Include="Classes\EnemyHead.cs" />
+    <Compile Include="Classes\EnemyStatue.cs" />
     <Compile Include="Classes\Global.cs" />
     <Compile Include="Classes\IntVector2D.cs" />
     <Compile Include="Classes\MainGame.cs" />
+    <Compile Include="Classes\Particle.cs" />
+    <Compile Include="Classes\Quad.cs" />
     <Compile Include="Classes\Room.cs" />
     <Compile Include="Classes\Sprite.cs" />
     <Compile Include="Classes\Tile.cs" />

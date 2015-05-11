@@ -66,6 +66,46 @@ namespace CircusCharlie.Classes
             }
         }
 
+        public void MsgCol(Vector2 pos, Vector2 size, string msg)
+        {
+            ColSquare a = new ColSquare(pos, Vector2.Zero, Vector2.One * size);
+
+            a.DrawDebug(Editor.colorDebug3);
+
+            foreach (KeyValuePair<IntVector2D, Actor> e in actors)
+            {
+                if (e.Value.CheckCol(a) != Vector2.Zero)
+                {
+                    e.Value.PassMsg(msg);
+                }
+            }
+        }
+
+        public bool CheckCol(Vector2 pos)
+        {
+            return CheckCol(pos, Vector2.One*0.2f);
+        }
+
+        public bool CheckCol(Vector2 pos, Vector2 size)
+        {
+            ColSquare a = new ColSquare(pos, Vector2.One * -size/2f, Vector2.One * size);
+
+            a.DrawDebug(Editor.colorDebug3);
+
+            foreach (Col e in cols)
+            {
+                if (e.CheckCol(a) != Vector2.Zero) return true;
+            }
+
+
+            foreach (KeyValuePair<IntVector2D, Actor> e in actors)
+            {
+                if (e.Value.CheckCol(a) != Vector2.Zero) return true;
+            }
+
+            return false;
+        }
+
         public Vector2 CheckCol(Actor other)
         {
             // Lag caused by large amount of sprites.
@@ -128,7 +168,7 @@ namespace CircusCharlie.Classes
             while (temp.Count > 0)
             {
                 Vector2 pos = new Vector2(temp[0].X, temp[0].Y);
-                Vector2 size = new Vector2(24, 24);
+                Vector2 size = new Vector2(1f, 1f);
 
                 bool horizontal = true;
                 bool vertical = true;
@@ -138,12 +178,12 @@ namespace CircusCharlie.Classes
 
                 while (temp.Contains(start))
                 {
-                    size += new Vector2(24, 0);
+                    size += new Vector2(1f, 0f);
                     temp.Remove(start);
                     start += new IntVector2D(1, 0);
                 }
 
-                cols.Add(new ColSquare(pos*24f,
+                cols.Add(new ColSquare(pos,
                                        Vector2.Zero,
                                        size));
             }
@@ -165,7 +205,7 @@ namespace CircusCharlie.Classes
             cols.Clear();
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
-                e.Value.UnDestroy();
+                e.Value.Reset();
             }
         }
 
@@ -183,17 +223,55 @@ namespace CircusCharlie.Classes
                     writer.Write(e.Key.Y);
                     writer.Write(e.Value.GetOff().X);
                     writer.Write(e.Value.GetOff().Y);
-                    writer.Write(e.Value.GetRotation());
-                    writer.Write(e.Value.GetColor());
                 }
 
-                // Write the amount of actors in the room
+                // Need to add info for all the actors in the scene
                 writer.Write(actors.Count);
 
                 foreach (KeyValuePair<IntVector2D, Actor> e in actors)
                 {
-                    writer.Write(e.Key.X);
-                    writer.Write(e.Key.Y);
+                    // Normal breakable block
+                    if (e.Value.GetType() == typeof(Block))
+                    {
+                        writer.Write((int)(0));
+                        writer.Write(e.Key.X);
+                        writer.Write(e.Key.Y);
+                        continue;
+                    }
+
+                    // Statue
+                    if (e.Value.GetType() == typeof(EnemyStatue))
+                    {
+                        writer.Write((int)(1));
+                        writer.Write(e.Key.X);
+                        writer.Write(e.Key.Y);
+
+                        // Enemies have different pos's to where they're stored.
+                        writer.Write(e.Value.GetPos().X);
+                        writer.Write(e.Value.GetPos().Y);
+
+                        // Write whether the statue is upside down.
+                        writer.Write((e.Value.GetValue("flipY") == -1f));
+                        continue;
+                    }
+
+                    // Head
+                    if (e.Value.GetType() == typeof(EnemyHead))
+                    {
+                        writer.Write((int)(2));
+                        writer.Write(e.Key.X);
+                        writer.Write(e.Key.Y);
+
+                        // Enemies have different pos's to where they're stored.
+                        writer.Write(e.Value.GetPos().X);
+                        writer.Write(e.Value.GetPos().Y);
+
+                        // Write whether the head is upside down.
+                        writer.Write((e.Value.GetValue("flipY") == -1f));
+                        continue;
+                    }
+
+                    
                 }
             }
         }
@@ -213,16 +291,14 @@ namespace CircusCharlie.Classes
                     {
                         int posX = reader.ReadInt32();
                         int posY = reader.ReadInt32();
-                        int offX = reader.ReadInt32();
-                        int offY = reader.ReadInt32();
-                        int rotation = reader.ReadInt32();
-                        int color = reader.ReadInt32();
+                        float offX = reader.ReadSingle();
+                        float offY = reader.ReadSingle();
+                        //int rotation = reader.ReadInt32();
+                        //int color = reader.ReadInt32();
 
                         Tile tile = new Tile(spr,
-                                             new IntVector2D(offX, offY),
-                                             new IntVector2D(posX, posY));
-                        tile.SetRotation(rotation);
-                        tile.SetColor(color);
+                                             new Vector2(offX, offY),
+                                             new Vector2(posX, posY));
 
                         tiles.Add(new IntVector2D(posX, posY), tile);
                     }
@@ -231,22 +307,53 @@ namespace CircusCharlie.Classes
 
                     for (int i = 0; i < count; i++)
                     {
+                        // Need to read the type first.
+                        int type = reader.ReadInt32();
+
+                        // All actors have a position.
                         int posX = reader.ReadInt32();
                         int posY = reader.ReadInt32();
 
-                        Actor block = new Block(new Vector2(posX, posY), _block);
+                        // Make block
+                        if (type == 0)
+                        {
+                            Actor block = new Block(new Vector2(posX, posY), _block);
+                            actors.Add(new IntVector2D(posX, posY), block);
+                            continue;
+                        }
 
-                        actors.Add(new IntVector2D(posX, posY), block);
+                        // Pretty much everything else reads the real position.
+                        float X = reader.ReadSingle();
+                        float Y = reader.ReadSingle();
+
+                        bool readFlipY = false;
+                        float writeFlipY = 1f;
+
+                        switch (type)
+                        {
+                            // Statue
+                            case 1:
+                                readFlipY = reader.ReadBoolean();
+                                if (readFlipY) writeFlipY = -1f;
+
+                                Actor statue = new EnemyStatue(new Vector2(X, Y), Editor.sprStatue, -1f, writeFlipY);
+                                actors.Add(new IntVector2D(posX, posY), statue);
+                                break;
+
+                            // Head
+                            case 2:
+                                readFlipY = reader.ReadBoolean();
+                                if (readFlipY) writeFlipY = -1f;
+
+                                Actor head = new EnemyHead(new Vector2(X, Y), Editor.sprHead, writeFlipY);
+                                actors.Add(new IntVector2D(posX, posY), head);
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                 }
-            }
-        }
-
-        public void DrawShadow(IntVector2D _pos)
-        {
-            foreach (KeyValuePair<IntVector2D, Tile> e in tiles)
-            {
-                e.Value.DrawShadow(new IntVector2D(0, 0));
             }
         }
 
@@ -260,7 +367,26 @@ namespace CircusCharlie.Classes
 
             foreach (Col e in cols)
             {
-                e.DrawDebug();
+                e.DrawDebug(Editor.colorDebug2);
+            }
+
+            foreach (KeyValuePair<IntVector2D, Actor> e in actors)
+            {
+                e.Value.DrawEditor();
+            }
+        }
+
+        public void Draw3D(IntVector2D _pos)
+        {
+
+            foreach (KeyValuePair<IntVector2D, Tile> e in tiles)
+            {
+                e.Value.Draw3D();
+            }
+
+            foreach (Col e in cols)
+            {
+                e.DrawDebug(Editor.colorDebug);
             }
 
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)

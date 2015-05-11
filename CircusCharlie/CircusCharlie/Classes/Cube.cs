@@ -10,29 +10,273 @@ namespace CircusCharlie.Classes
 {
     class Cube
     {
-        private Sprite spr;
-        private Vector2 pos = Vector2.Zero;
-        private Vector2 size = Vector2.Zero;
-        private float z = 1;        // Larger = closer to camera.
-        private float depth = 10f;  // Length of the cube in z.
+        private Texture2D   tex;
+        //private Vector2     uvSize = Vector2.Zero; // 0-1
+        //private Vector2     uvOff = Vector2.Zero;  // Multiplier
 
-        public Cube(Sprite _spr, Vector2 _pos, Vector2 _size, float _z, float _depth)
+        private Vector3 size = Vector3.One;
+        private Vector3 pos = Vector3.Zero;
+
+        // Neighbours
+        private bool nTop       = false;
+        private bool nBottom    = false;
+        private bool nLeft      = false;
+        private bool nRight     = false;
+
+        Quad [] quads;
+
+        public Cube(Texture2D _tex,
+                    Vector3 _pos,
+                    Vector3 _size,
+                    Vector2 uvOff,
+                    Vector2 uvSize)
         {
-            spr = _spr;
+            tex = _tex;
             pos = _pos;
             size = _size;
-            z = _z;
-            depth = _depth;
+
+            //uvOff = _uvOff;
+            //uvSize = _uvSize;
+
+            quads = new Quad[5];
+
+            // 0 - Main
+            // 1 - Top
+            // 2 - Right
+            // 3 - Bottom
+            // 4 - Left
+
+            quads[0] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + size.X / 2f, pos.Y + size.Y / 2f, pos.Z),
+                            Vector3.Backward,
+                            Vector3.Down,
+                            size.X,
+                            size.Y,
+                            uvOff * uvSize,
+                            uvSize,
+                            tex
+                       );
+
+            quads[1] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + size.X / 2f, pos.Y, pos.Z + size.Z / 2f),
+                            Vector3.Up,
+                            Vector3.Forward,
+                            size.X,
+                            size.Z,
+                            uvOff * uvSize,
+                            uvSize,
+                            tex
+                       );
+
+            quads[2] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + size.X, pos.Y + size.Y / 2f, pos.Z + size.Z / 2f),
+                            Vector3.Left,
+                            Vector3.Down,
+                            size.Z,
+                            size.Y,
+                            uvOff * uvSize,
+                            uvSize,
+                            tex
+                       );
+
+            quads[3] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + size.X / 2f, pos.Y + size.Y, pos.Z + size.Z / 2f),
+                            Vector3.Down,
+                            Vector3.Forward,
+                            size.X,
+                            size.Z,
+                            uvOff * uvSize,
+                            uvSize,
+                            tex
+                       );
+
+            quads[4] = new Classes.Quad
+                       (
+                            new Vector3(pos.X, pos.Y + size.Y / 2f, pos.Z + size.Z / 2f),
+                            Vector3.Right,
+                            Vector3.Down,
+                            size.Z,
+                            size.Y,
+                            uvOff * uvSize,
+                            uvSize,
+                            tex
+                       );
         }
 
-        public void DrawDepth()
+        public Cube(Texture2D _tex,
+                    Vector3 _pos,
+                    Vector3 _size,
+                    Vector2 uvOff0,
+                    Vector2 uvOff1,
+                    Vector2 uvOff2,
+                    Vector2 uvOff3,
+                    Vector2 uvOff4,
+                    Vector2 uvSize0,
+                    Vector2 uvSize1,
+                    Vector2 uvSize2,
+                    Vector2 uvSize3,
+                    Vector2 uvSize4)
         {
+            tex = _tex;
+            pos = _pos;
+            size = _size;
 
+            //uvOff = _uvOff;
+            //uvSize = _uvSize;
+
+            quads = new Quad[5];
+
+            // 0 - Main
+            // 1 - Top
+            // 2 - Right
+            // 3 - Bottom
+            // 4 - Left
+
+            quads[0] = new Classes.Quad
+                       (
+                            new Vector3(pos.X+size.X/2f, pos.Y+size.Y/2f, pos.Z),
+                            Vector3.Backward,
+                            Vector3.Down,
+                            size.X,
+                            size.Y,
+                            uvOff0,
+                            uvSize0,
+                            tex
+                       );
+
+            quads[1] = new Classes.Quad
+                       (
+                            new Vector3(pos.X+size.X/2f, pos.Y, pos.Z + size.Z / 2f),
+                            Vector3.Up,
+                            Vector3.Forward,
+                            size.X,
+                            size.Z,
+                            uvOff1,
+                            uvSize1,
+                            tex
+                       );
+
+            quads[2] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + size.X, pos.Y+size.Y/2f, pos.Z + size.Z / 2f),
+                            Vector3.Left,
+                            Vector3.Down,
+                            size.Z,
+                            size.Y,
+                            uvOff2,
+                            uvSize2,
+                            tex
+                       );
+
+            quads[3] = new Classes.Quad
+                       (
+                            new Vector3(pos.X+size.X/2f, pos.Y+size.Y, pos.Z + size.Z / 2f),
+                            Vector3.Down,
+                            Vector3.Forward,
+                            size.X,
+                            size.Z,
+                            uvOff3,
+                            uvSize3,
+                            tex
+                       );
+
+            quads[4] = new Classes.Quad
+                       (
+                            new Vector3(pos.X, pos.Y+size.Y/2f, pos.Z + size.Z / 2f),
+                            Vector3.Right,
+                            Vector3.Down,
+                            size.Z,
+                            size.Y,
+                            uvOff4,
+                            uvSize4,
+                            tex
+                       );
         }
 
-        public void DrawMain()
+        public void SetPos(Vector3 _pos)
         {
-            spr.DrawView(pos, Color.White);
+            pos = _pos;
+
+            quads[0].SetPos(new Vector3(pos.X + size.X / 2f, pos.Y + size.Y / 2f, pos.Z));
+            quads[1].SetPos(new Vector3(pos.X + size.X / 2f, pos.Y, pos.Z + size.Z / 2f));
+            quads[2].SetPos(new Vector3(pos.X + size.X, pos.Y + size.Y / 2f, pos.Z + size.Z / 2f));
+            quads[3].SetPos(new Vector3(pos.X + size.X / 2f, pos.Y + size.Y, pos.Z + size.Z / 2f));
+            quads[4].SetPos(new Vector3(pos.X, pos.Y + size.Y / 2f, pos.Z + size.Z / 2f));
+        }
+
+        public void SetAlpha(float a)
+        {
+            for (int i = 0; i < quads.Length; i++)
+            {
+                quads[i].Alpha = a;
+            }
+        }
+
+        /*public void SetSize(Vector3 _size)
+        {
+            size = _size;
+
+            quads[0].SetVerts(size.X, size.Y);
+            quads[1].SetVerts(size.X, size.Y);
+            quads[2].SetVerts(size.X, size.Y);
+            quads[3].SetVerts(size.X, size.Y);
+            quads[4].SetVerts(size.X, size.Y);
+        }*/
+
+        public void SetNeighbours(bool t, bool r, bool b, bool l)
+        {
+            nTop = t;
+            nRight = r;
+            nBottom = b;
+            nLeft = l;
+        }
+
+        public void Draw()
+        {
+            Game1.AddQuad(ref quads[0]);
+            if (!nTop)    Game1.AddQuad(ref quads[1]);
+            if (!nRight)  Game1.AddQuad(ref quads[2]);
+            if (!nBottom) Game1.AddQuad(ref quads[3]);
+            if (!nLeft)   Game1.AddQuad(ref quads[4]);
+
+            /*
+            quads[2] = new Classes.Quad
+                       (
+                            new Vector3(pos.X + 0.5f, pos.Y, 0.5f),
+                                            Vector3.Right,
+                                            Vector3.Down,
+                                            1f,
+                                            1f,
+                                            new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
+                                new Vector2(0.25f, 0.25f));
+
+            quadSides[1] = new Classes.Quad(new Vector3(pos.X - 0.5f, pos.Y, 0.5f),
+                                                Vector3.Left,
+                                                Vector3.Down,
+                                                1f,
+                                                1f,
+                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
+                                new Vector2(0.25f, 0.25f));
+
+            quadSides[2] = new Classes.Quad(new Vector3(pos.X, pos.Y - 0.5f, 0.5f),
+                                                Vector3.Down,
+                                                Vector3.Forward,
+                                                1f,
+                                                1f,
+                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
+                                new Vector2(0.25f, 0.25f));
+
+            quadSides[3] = new Classes.Quad(new Vector3(pos.X, pos.Y + 0.5f, 0.5f),
+                                                Vector3.Down,
+                                                Vector3.Forward,
+                                                1f,
+                                                1f,
+                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
+                                new Vector2(0.25f, 0.25f));*/
         }
     }
 }

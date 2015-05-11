@@ -46,7 +46,7 @@ namespace CircusCharlie.Classes
         public void DrawView(Vector2 pos, float scale = 1f)
         {
             Animate();
-            spr.DrawView(pos, new IntVector2D(spr.Width*frame, 0), 0, scale, Color.White);
+            //spr.DrawView(pos, new IntVector2D(spr.Width*frame, 0), 0, scale, Color.White);
         }
 
     }
