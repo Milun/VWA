@@ -32,8 +32,8 @@ namespace CircusCharlie.Classes
             pos = _pos;
 
             cube = new Cube(spr.GetTexture(),
-                            new Vector3(pos.X, pos.Y, -0.5f),
-                            new Vector3(1f, 1f, 1f),
+                            new Vector3(pos.X, pos.Y, -0.25f),
+                            new Vector3(1f, 1f, 0.5f),
                             _off,
                             Vector2.One * 0.25f);
         }

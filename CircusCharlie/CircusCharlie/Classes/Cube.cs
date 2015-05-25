@@ -238,6 +238,9 @@ namespace CircusCharlie.Classes
         public void Draw()
         {
             Game1.AddQuad(ref quads[0]);
+
+            if (!MainGame.HD) return;
+
             if (!nTop)    Game1.AddQuad(ref quads[1]);
             if (!nRight)  Game1.AddQuad(ref quads[2]);
             if (!nBottom) Game1.AddQuad(ref quads[3]);

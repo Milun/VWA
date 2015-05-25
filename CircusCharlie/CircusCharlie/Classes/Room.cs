@@ -13,14 +13,12 @@ namespace CircusCharlie.Classes
 {
     class Room
     {
-        private const int mapWidth = 29;
-        private const int mapHeight = 22;
+        public int mapWidth = 12;
+        public int mapHeight = 22;
 
         private Dictionary<IntVector2D, Tile> tiles;
         private List<Col> cols;
         private Dictionary<IntVector2D, Actor> actors;
-
-        private string description = "";
 
         public Room()
         {
@@ -68,13 +66,17 @@ namespace CircusCharlie.Classes
 
         public void MsgCol(Vector2 pos, Vector2 size, string msg)
         {
-            ColSquare a = new ColSquare(pos, Vector2.Zero, Vector2.One * size);
+            Col a = new ColSquare(pos, Vector2.Zero, Vector2.One * size);
 
-            a.DrawDebug(Editor.colorDebug3);
+            a.DrawDebug(Color.Pink);
 
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
-                if (e.Value.CheckCol(a) != Vector2.Zero)
+                if (e.Value.CheckTrig(a) != Vector2.Zero)
+                {
+                    e.Value.PassMsg(msg);
+                }
+                else if (e.Value.CheckCol(a) != Vector2.Zero)
                 {
                     e.Value.PassMsg(msg);
                 }
@@ -83,10 +85,10 @@ namespace CircusCharlie.Classes
 
         public bool CheckCol(Vector2 pos)
         {
-            return CheckCol(pos, Vector2.One*0.2f);
+            return (CheckCol(pos, Vector2.One*0.2f) != Vector2.Zero);
         }
 
-        public bool CheckCol(Vector2 pos, Vector2 size)
+        public Vector2 CheckCol(Vector2 pos, Vector2 size)
         {
             ColSquare a = new ColSquare(pos, Vector2.One * -size/2f, Vector2.One * size);
 
@@ -94,16 +96,22 @@ namespace CircusCharlie.Classes
 
             foreach (Col e in cols)
             {
-                if (e.CheckCol(a) != Vector2.Zero) return true;
+                Vector2 output = a.CheckCol(e);
+
+                if (output != Vector2.Zero)
+                return output;
             }
 
 
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
-                if (e.Value.CheckCol(a) != Vector2.Zero) return true;
+                Vector2 output = e.Value.CheckCol(a);
+
+                if (output != Vector2.Zero)
+                return -output;
             }
 
-            return false;
+            return Vector2.Zero;
         }
 
         public Vector2 CheckCol(Actor other)
@@ -114,13 +122,30 @@ namespace CircusCharlie.Classes
 
             foreach (Col e in cols)
             {
-                output -= other.CheckCol(e);
+                output -= other.CheckTrig(e);
             }
 
             
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
-                Vector2 col = e.Value.CheckCol(other);
+                Vector2 col = other.CheckCol(e.Value);
+
+                if (col != Vector2.Zero)
+                {
+                    output -= col;
+                }
+            }
+
+            return output;
+        }
+
+        public Vector2 CheckTrig(Actor other)
+        {
+            Vector2 output = Vector2.Zero;
+
+            foreach (KeyValuePair<IntVector2D, Actor> e in actors)
+            {
+                Vector2 col = other.CheckTrig(e.Value);
 
                 if (col != Vector2.Zero)
                 {
@@ -345,7 +370,7 @@ namespace CircusCharlie.Classes
                                 readFlipY = reader.ReadBoolean();
                                 if (readFlipY) writeFlipY = -1f;
 
-                                Actor head = new EnemyHead(new Vector2(X, Y), Editor.sprHead, writeFlipY);
+                                Actor head = new EnemyHead(new Vector2(X, Y), Editor.sprHead, Editor.sprEarth, writeFlipY);
                                 actors.Add(new IntVector2D(posX, posY), head);
                                 break;
 

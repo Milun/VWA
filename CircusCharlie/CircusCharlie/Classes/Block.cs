@@ -151,8 +151,8 @@ namespace CircusCharlie.Classes
                                        4f);
 
             cube = new Cube(tex,
-                            new Vector3(pos.X, pos.Y, -1f),
-                            new Vector3(2f, 1f, 2f),
+                            new Vector3(pos.X, pos.Y, -0.25f),
+                            new Vector3(2f, 1f, 0.5f),
                             new Vector2(0, 0.5f),
                             new Vector2(0, 0f),
                             new Vector2(0, 0.5f),
@@ -230,8 +230,6 @@ namespace CircusCharlie.Classes
 
         protected override void ActorCol(Actor other, Vector2 collision)
         {
-            if (!IsAlive()) return;
-
             // If it collides with the ball, destroy the block!
             if (other.GetType() == typeof(Ball))
             {
@@ -241,22 +239,22 @@ namespace CircusCharlie.Classes
                     // If hit from below, stun things above.
                     if (collision.Y > 0f)
                     {
-                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y-1f),
-                                             new Vector2(2f, 1f),
+                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y-0.2f),
+                                             new Vector2(2f, 0.2f),
                                              "stun-below");
 
-                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y+2f),
-                                             new Vector2(2f, 1f),
+                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y+1f),
+                                             new Vector2(2f, 0.2f),
                                              "gone-above");
                     }
                     else if (collision.Y < 0f)
                     {
-                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y+2f),
-                                             new Vector2(2f, 1f),
+                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y+1f),
+                                             new Vector2(2f, 0.2f),
                                              "stun-above");
 
-                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y-1f),
-                                             new Vector2(2f, 1f),
+                        MainGame.room.MsgCol(new Vector2(pos.X, pos.Y-0.2f),
+                                             new Vector2(2f, 0.2f),
                                              "gone-below");
                     }
 

@@ -31,6 +31,12 @@ namespace CircusCharlie.Classes
 
             Editor.sprCircle.Draw(new IntVector2D((int)(tL.X*Global.gridSize), (int)(tL.Y*Global.gridSize)),
                                   new IntVector2D((int)(diamater * Global.gridSize), (int)(diamater * Global.gridSize)), color);
+
+            Editor.sprDebug.Draw(new IntVector2D((int)(tL.X * Global.gridSize-1), (int)(tL.Y * Global.gridSize-1)),
+                                  new IntVector2D(2, 2), Color.Silver);
+
+            Editor.sprDebug.Draw(new IntVector2D((int)(bR.X * Global.gridSize-1), (int)(bR.Y * Global.gridSize-1)),
+                                  new IntVector2D(2, 2), Color.Silver);
         }
 
         public Vector2 Center

@@ -14,10 +14,12 @@ namespace CircusCharlie.Classes
         protected Vector2 pos = Vector2.Zero;
 
         public List<Col> cols;
+        public List<Col> trigs;
 
         public Actor()
         {
             cols = new List<Col>();
+            trigs = new List<Col>();
         }
 
         protected void AddCol(Col col)
@@ -26,9 +28,20 @@ namespace CircusCharlie.Classes
             cols.Add(col);
         }
 
+        protected void AddTrig(Col col)
+        {
+            if (trigs == null) return;
+            trigs.Add(col);
+        }
+
         protected void UpdateCol(Vector2 _pos)
         {
             foreach (Col e in cols)
+            {
+                e.UpdatePos(_pos);
+            }
+
+            foreach (Col e in trigs)
             {
                 e.UpdatePos(_pos);
             }
@@ -39,12 +52,12 @@ namespace CircusCharlie.Classes
             return !destroyed;
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
             destroyed = true;
         }
 
-        public void UnDestroy()
+        public virtual void UnDestroy()
         {
             destroyed = false;
         }
@@ -74,13 +87,18 @@ namespace CircusCharlie.Classes
             return cols;
         }
 
+        public List<Col> GetTrigs()
+        {
+            return trigs;
+        }
+
         public virtual Vector2 CheckCol(Actor other)
         {
             if (!other.IsAlive() || !IsAlive()) return Vector2.Zero;
 
             Vector2 output = Vector2.Zero;
 
-            foreach (Col e in cols)
+            foreach (Col e in trigs)
             {
                 foreach (Col f in other.GetCol())
                 {
@@ -88,10 +106,43 @@ namespace CircusCharlie.Classes
                 }
             }
 
-            // Act on a collision if it occurs.
-            if (output != Vector2.Zero) ActorCol(other, output);
+            // Make both act on a collision if it occurs.
+            if (output != Vector2.Zero)
+            {
+                ActorCol(other, output);
+                other.ActorCol(this, output);
+            }
 
             return output;
+        }
+
+        public virtual Vector2 CheckTrig(Actor other)
+        {
+            if (!other.IsAlive() || !IsAlive()) return Vector2.Zero;
+
+            Vector2 output = Vector2.Zero;
+
+            foreach (Col e in trigs)
+            {
+                foreach (Col f in other.GetTrigs())
+                {
+                    output += f.CheckCol(e);
+                }
+            }
+
+            // Make both act on a collision if it occurs.
+            if (output != Vector2.Zero)
+            {
+                ActorCol(other, output);
+                other.ActorCol(this, output);
+            }
+
+            return output;
+        }
+
+        protected virtual void ActorColGeneric(Vector2 collision)
+        {
+            return;
         }
 
         protected virtual void ActorCol(Actor other, Vector2 collision)
@@ -120,6 +171,33 @@ namespace CircusCharlie.Classes
                 output += e.CheckCol(other);
             }
 
+            if (output != Vector2.Zero)
+            {
+                ActorColGeneric(output);
+            }
+
+            return output;
+        }
+
+        public virtual Vector2 CheckTrig(Col other)
+        {
+            if (!IsAlive()) return Vector2.Zero;
+
+            Vector2 output = Vector2.Zero;
+
+            foreach (Col e in trigs)
+            {
+                /*Console.WriteLine(other.TL.X + "," + other.TL.Y + " - " + other.BR.X + "," + other.BR.Y + " +++ " +
+                                  e.TL.X + "," + e.TL.Y + " - " + e.BR.X + "," + e.BR.Y);
+                */
+                output += e.CheckCol(other);
+            }
+
+            if (output != Vector2.Zero)
+            {
+                ActorColGeneric(output);
+            }
+
             return output;
         }
 
@@ -129,11 +207,21 @@ namespace CircusCharlie.Classes
             {
                 e.DrawDebug(color);
             }
+
+            foreach (Col e in trigs)
+            {
+                e.DrawDebug(Color.BlueViolet);
+            }
         }
 
         public void UpdateCol()
         {
             foreach (Col e in cols)
+            {
+                e.UpdatePos(pos);
+            }
+
+            foreach (Col e in trigs)
             {
                 e.UpdatePos(pos);
             }

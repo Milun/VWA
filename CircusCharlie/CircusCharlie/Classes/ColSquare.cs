@@ -48,10 +48,10 @@ namespace CircusCharlie.Classes
         {
             if (!Editor.showDebug) return;
 
-            Editor.sprDebug.Draw(new IntVector2D((int)(tL.X*Global.gridSize+1),
-                                                 (int)(tL.Y*Global.gridSize+1)),
-                                 new IntVector2D((int)(size.X*Global.gridSize-2),
-                                                 (int)(size.Y*Global.gridSize-2)), color);
+            Editor.sprDebug.Draw(new IntVector2D((int)(tL.X*Global.gridSize),
+                                                 (int)(tL.Y*Global.gridSize)),
+                                 new IntVector2D((int)(size.X*Global.gridSize-1),
+                                                 (int)(size.Y*Global.gridSize-1)), color);
         }
 
         public Vector2 Center

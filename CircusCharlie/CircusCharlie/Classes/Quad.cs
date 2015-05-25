@@ -52,6 +52,10 @@ namespace CircusCharlie.Classes
         public float RotY;
         public float RotZ;
 
+        public float Z;
+
+        public int Order;
+
         public Quad( Vector3 origin, Vector3 normal, Vector3 up, 
             float width, float height, Vector2 UVPos, Vector2 UVSize, Texture2D tex )
         {
@@ -65,6 +69,9 @@ namespace CircusCharlie.Classes
             Width = width;
             Height = height;
             Alpha = 1.0f;
+
+            Z = 0f;
+            Order = 0;
 
             flipX = false;
             flipY = false;

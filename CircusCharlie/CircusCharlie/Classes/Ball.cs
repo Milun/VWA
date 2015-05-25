@@ -14,12 +14,12 @@ namespace CircusCharlie.Classes
     {
         private Sprite spr;
 
-        private const float BALLSIZE = 0.66f;
-        private float YSPEED = 1/12f;
+        private const float BALLSIZE = 0.5f;
+        private float YSPEED = 1/27f;
         private const float XSPEED = 1/16f;
 
         private float xSpeed = 0f;
-        private float ySpeed = 1/12f;
+        private float ySpeed = 1/27f;
         private float ySpeedAdd = 0f;
 
         public Model model;
@@ -31,9 +31,9 @@ namespace CircusCharlie.Classes
             spr = _spr;
             startPos = pos;
 
-            AddCol(new ColCircle(pos,
-                                 new Vector2(0, 0),
-                                 BALLSIZE));
+            AddTrig(new ColCircle(pos,
+                                  new Vector2(0, 0),
+                                  BALLSIZE));
 
             model = MainGame.content.Load<Model>("Sprites/cube");
         }
@@ -62,18 +62,21 @@ namespace CircusCharlie.Classes
             // Check collisions
             Vector2 collision = MainGame.room.CheckCol(this);
 
-
             if (Keyboard.GetState().IsKeyDown(Keys.Space)) return;
 
             // Move first
-            if (collision.X >= 0f && Keyboard.GetState().IsKeyDown(Keys.A))
+            if (pos.X > BALLSIZE/3f && 
+                collision.X >= 0f &&
+                Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 if (xSpeed > -XSPEED)
                 { 
                     xSpeed -= 0.01f;
                 }
             }
-            else if (collision.X <= 0f && Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (pos.X < MainGame.room.mapWidth - BALLSIZE / 3f && 
+                     collision.X <= 0f &&
+                     Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 if (xSpeed < XSPEED)
                 {
@@ -146,6 +149,8 @@ namespace CircusCharlie.Classes
             
             DrawCol(Editor.colorDebug2);
 
+            // Check for trigger collisions with the ball.
+            MainGame.room.CheckTrig(this);
             Move();
 
             UpdateCol();
@@ -165,5 +170,24 @@ namespace CircusCharlie.Classes
             pos = startPos;
         }
 
+        // Prevent the ball hitting it's own Head.
+        protected override void ActorCol(Actor other, Vector2 collision)
+        {
+            if (other.GetType() == typeof(EnemyStatue))
+            {
+                Reset();
+            }
+        }
+
+        public override void PassMsg(string msg)
+        {
+            // React to an instant kill
+            if (msg == "dmgMax")
+            {
+                Reset();
+            }
+
+            return;
+        }
     }
 }

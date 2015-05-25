@@ -10,25 +10,33 @@ namespace CircusCharlie.Classes
 {
     class EnemyBullet : Enemy
     {
-        float charge = 0f;        // Needs to charge up.
         EnemyHead head;           // Reference to the head which shot ya.
 
         float minDistance = 5.0f;
         Vector2 moveVector = Vector2.Zero;
 
+        float diam = 0.8f;
+
+        bool explode = false;
+
         public EnemyBullet(Vector2 _pos, Sprite _spr, EnemyHead _head)
-            : base(_pos, _spr, 1f, 1f, Vector2.One * 0.8f, Vector2.One, Vector2.Zero, 0.0f, -0.1f)
+            : base(_pos, _spr, 1f, 1f, Vector2.One*0.8f, Vector2.One * 0.25f, Vector2.Zero, 0.0f, -0.1f)
         {
             head = _head;
 
-            AddCol(new ColCircle(pos,
-                                 Vector2.Zero,
-                                 0.8f));
+            Die();
+            explode = false;
+
+            AddTrig(new ColCircle(pos,
+                                  Vector2.Zero,
+                                  diam * 0.7f));
         }
 
         public override void Reset()
         {
             base.Reset();
+
+            explode = false;
 
             pos = startPos;
             moveVector = Vector2.Zero;
@@ -37,79 +45,115 @@ namespace CircusCharlie.Classes
             UpdateCol();
 
             // Set some time before the bullet respawns.
-            charge = 0f;
             bill.UpdateVerts(0f, 0f);
+
+            bill.SetAnim(0, 8);
+            bill.SetAnimationSpeed(0.3f);
+
+            UnDestroy();
+        }
+
+        private void Die()
+        {
+            explode = true;
+            bill.SetAnim(9, 16, 9);
+            Destroy();
+        }
+
+        public void ShootBullet(Vector2 newStartPos)
+        {
+            startPos = newStartPos;
+
+            Reset();
+
+            // Get vector to ball.
+            Vector2 ball = MainGame.ball.GetPos();
+            Vector2 vec = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
+            vec.Normalize();
+
+            moveVector = vec * 0.05f;
         }
 
         public override void Draw()
         {
-            // Charge the bullet up.
-            if (charge < 1f)
+            if (explode)
             {
-                charge += 0.02f;
-
-                bill.UpdateVerts(0.8f * charge, 0.8f * charge);
-
-                // When you've stopped charging, fire in the direction of the ball.
-                if (charge >= 1f)
+                if (bill.Animate() != 16)
                 {
-                    Vector2 ball = MainGame.ball.GetPos();
-                    moveVector = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
-                    moveVector.Normalize();
+                    bill.Draw();
+                    return;
                 }
 
+                // You collided. Make the head wait to shoot again.
+                Destroy();
+                explode = false;
+                head.WaitToShoot();
+
+                return;
             }
             else
             {
-                // Get vector to ball.
-                Vector2 ball = MainGame.ball.GetPos();
-                Vector2 vec = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
-
-                float length = vec.Length();
-
-                // Check if the bullet has hit something.
-
-                // First the player
-                if (length < 0.7f)
+                // Check OOB
+                if (pos.X > MainGame.room.mapWidth+diam ||
+                    pos.X < -diam ||
+                    pos.Y > MainGame.room.mapHeight+diam ||
+                    pos.Y < -diam)
                 {
-                    Reset();
-                    head.WaitToShoot();
+                    Destroy();
+                }
 
-                    // Reset the bullet (temporary)
-                    MainGame.ball.Reset();
-
+                if (destroyed)
+                {
                     return;
                 }
-
-                // Second, a wall
-                Vector2 collision = MainGame.room.CheckCol(this);
-
-                // Reset on hit (go back to the start)
-                if (collision != Vector2.Zero)
-                {
-                    Reset();
-                    // Tell the head to wait for the player to come in range again.
-                    head.WaitToShoot();
-                    return;
-                }
-
-                // If the ball is whithin range of the bullet, home in.
-                if (length <= minDistance)
-                {
-                    moveVector = vec;
-                    moveVector.Normalize();
-                }
-
-                // Move
-                pos += moveVector * 0.05f;
-                bill.UpdatePos(pos);
-                UpdateCol();
             }
 
-            // Don't draw an uncharged bullet
-            if (charge > 0f) bill.Draw();
+            // Check if the bullet has hit something.
+            // Get vector to ball.
+            Vector2 ball = MainGame.ball.GetPos();
+            Vector2 vec = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
+
+            // First the player
+            if (vec.Length() < diam / 2f)
+            {
+                MainGame.ball.Reset();
+                Die();
+
+                return;
+            }
+
+            // Second, a wall
+            Vector2 collision = MainGame.room.CheckCol(this);
+
+            // Move
+            pos += moveVector;
+
+            bill.UpdatePos(pos);
+            bill.Animate();
+            bill.Draw();
+            
+            UpdateCol();
 
             DrawCol(Editor.colorDebug2);
+        }
+
+        // Prevent the ball hitting it's own Head.
+        protected override void ActorCol(Actor other, Vector2 collision)
+        {
+            // Ignore what made you.
+            if (other == head)
+            {
+                return;
+            }
+            else
+            {
+                Die();
+            }
+        }
+
+        protected override void ActorColGeneric(Vector2 collision)
+        {
+            Die();
         }
     }
 }

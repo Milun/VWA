@@ -36,6 +36,7 @@ namespace CircusCharlie.Classes
 
         public static Sprite sprStatue;
         public static Sprite sprHead;
+        public static Sprite sprEarth;
 
         private bool DPressed = false;
         private bool GPressed = false;
@@ -47,7 +48,7 @@ namespace CircusCharlie.Classes
 
         private MainGame mainGame;
 
-        public static bool showDebug = false;
+        public static bool showDebug = true;
         private bool showGrid = false;
 
         private Room[,] rooms;
@@ -194,6 +195,7 @@ namespace CircusCharlie.Classes
 
             sprStatue = new Sprite(Content.Load<Texture2D>("Sprites/spr_statue"), ref spriteBatch);
             sprHead = new Sprite(Content.Load<Texture2D>("Sprites/spr_head"), ref spriteBatch);
+            sprEarth = new Sprite(Content.Load<Texture2D>("Sprites/spr_earth"), ref spriteBatch);
 
             LoadMap();
             
@@ -372,7 +374,7 @@ namespace CircusCharlie.Classes
             }
             else if (currentActorSelect.X == 1f && currentActorSelect.Y == 0f)
             {
-                enemy = new EnemyHead(new Vector2(v.X+0.5f, v.Y), sprHead, 1f);
+                enemy = new EnemyHead(new Vector2(v.X+1f, v.Y+1f), sprHead, sprEarth, 1f);
             }
 
             if (enemy == null) return;

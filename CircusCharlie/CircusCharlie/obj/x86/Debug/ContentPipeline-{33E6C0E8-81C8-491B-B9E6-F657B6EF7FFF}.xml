@@ -152,10 +152,10 @@
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\cube.xnb</Output>
-      <Time>2015-04-25T14:39:00.3737938+10:00</Time>
+      <Time>2015-05-12T23:51:06.33173+10:00</Time>
       <Dependency>
         <Key>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\cube_0.xml</Key>
-        <Value>2015-04-25T14:55:45.5592092+10:00</Value>
+        <Value>2015-05-12T23:51:12.1890266+10:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -163,7 +163,7 @@
       <Importer>FbxImporter</Importer>
       <Options>IntermediateFile, DontCacheImportedData</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\obj\x86\Debug\Sprites\cube_0.xml</Output>
-      <Time>2015-04-25T14:39:00.3737938+10:00</Time>
+      <Time>2015-05-12T23:51:06.33173+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\spr_trees.png</Source>
@@ -172,7 +172,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_trees.xnb</Output>
-      <Time>2015-04-25T15:52:18.2625344+10:00</Time>
+      <Time>2015-05-13T12:57:39.0238284+10:00</Time>
     </Item>
     <Item>
       <Source>Sprites\burger.fbx</Source>
@@ -219,7 +219,25 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_head.xnb</Output>
-      <Time>2015-05-04T11:29:08.0797829+10:00</Time>
+      <Time>2015-05-21T14:32:23.3054802+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_browser.png</Source>
+      <Name>Sprites\spr_browser</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_browser.xnb</Output>
+      <Time>2015-05-12T22:33:23.1021227+10:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\spr_earth.png</Source>
+      <Name>Sprites\spr_earth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_earth.xnb</Output>
+      <Time>2015-05-18T11:55:02.3379554+10:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

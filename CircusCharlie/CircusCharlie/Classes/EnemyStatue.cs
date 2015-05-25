@@ -20,9 +20,9 @@ namespace CircusCharlie.Classes
         {
             Reset();
 
-            AddCol(new ColSquare(pos,
-                                 new Vector2(-0.25f, -1.2f - 1.2f * flipY),
-                                 new Vector2(0.5f, 2.4f)));
+            AddTrig(new ColSquare(pos,
+                                  new Vector2(-0.25f, -1.2f - 1.2f * flipY),
+                                  new Vector2(0.5f, 2.4f)));
         }
 
         public override void Draw()
@@ -34,7 +34,7 @@ namespace CircusCharlie.Classes
                 // Check for landing. Don't do it first frame.
                 if (ySpeed > 0.1f &&
                     MainGame.room.CheckCol(new Vector2(pos.X, pos.Y),
-                                           new Vector2(0.5f, 0.2f)))
+                                           new Vector2(0.5f, 0.2f)) != Vector2.Zero)
                 {
                     //Destroy();
                 }
@@ -66,7 +66,7 @@ namespace CircusCharlie.Classes
                     // There's floor ahead, and there's no wall ahead
                     if (
                         MainGame.room.CheckCol(new Vector2(pos.X + 0.75f, pos.Y + 0.1f * flipY)) &&
-                        !MainGame.room.CheckCol(new Vector2(pos.X + 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f))
+                        MainGame.room.CheckCol(new Vector2(pos.X + 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f)) == Vector2.Zero
                        )
                     {
                         pos += new Vector2(xSpeed, 0.0f);
@@ -88,7 +88,7 @@ namespace CircusCharlie.Classes
                     // There's floor ahead
                     if (
                         MainGame.room.CheckCol(new Vector2(pos.X - 0.75f, pos.Y + 0.1f * flipY)) &&
-                        !MainGame.room.CheckCol(new Vector2(pos.X - 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f))
+                        MainGame.room.CheckCol(new Vector2(pos.X - 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f)) == Vector2.Zero
                        )
                     {
                         pos -= new Vector2(xSpeed, 0.0f);

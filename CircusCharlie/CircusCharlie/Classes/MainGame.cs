@@ -13,6 +13,8 @@ namespace CircusCharlie.Classes
     class MainGame
     {
         public static Texture2D texBG;
+        private Border browser;
+
         Texture2D texMonitor;
         public static Sprite sprBall;
         Sprite sprBg;
@@ -48,17 +50,17 @@ namespace CircusCharlie.Classes
             quadEffect.EnableDefaultLighting();
             //quadEffect.LightingEnabled = true; // turn on the lighting subsystem.
             //quadEffect.AmbientLightColor = new Vector3(0.3f, 0.14f, 0.0f);
-            //quadEffect.EmissiveColor = new Vector3(0.5f, 0.5f, 0.5f);
+            quadEffect.EmissiveColor = new Vector3(0.5f, 0.5f, 0.5f);
 
             //quadEffect.DiffuseColor = new Vector3(2.0f, 2.0f, 2.0f);
 
             //quadEffect.DirectionalLight0.DiffuseColor = new Vector3(2f, 2f, 2f); // a red light
-            quadEffect.DirectionalLight0.Direction = new Vector3(0f, 0f, -3f);  // coming along the x-axis
+            /*quadEffect.DirectionalLight0.Direction = new Vector3(0f, 0f, -3f);  // coming along the x-axis
             quadEffect.DirectionalLight0.SpecularColor = new Vector3(0f, 0f, 0f); // with green highlights
 
-            //quadEffect.DirectionalLight1.Direction = new Vector3(3f, 0f, 0f);  // coming along the x-axis
-            //quadEffect.DirectionalLight1.SpecularColor = new Vector3(0f, 0f, 0f); // with green highlights
-
+            quadEffect.DirectionalLight1.Direction = new Vector3(-1f, -3f, 0f);  // coming along the x-axis
+            quadEffect.DirectionalLight1.SpecularColor = new Vector3(0f, 0f, 0f); // with green highlights
+            */
 
             //////////////////////////////////////////
 
@@ -70,6 +72,14 @@ namespace CircusCharlie.Classes
             ball = new Ball(sprBall);
 
             texBG = content.Load<Texture2D>("Sprites/spr_bg");
+
+            browser = new Border(_spriteBatch,
+                                 content.Load<Texture2D>("Sprites/spr_browser"),
+                                 new IntVector2D(78, 120),
+                                 new IntVector2D(178, 178),
+                                 new IntVector2D(214, 0),
+                                 new IntVector2D(802, Game1.SCREENHEIGHT));
+
             texMonitor = content.Load<Texture2D>("Sprites/spr_monitor");
 
             sprBg = new Sprite(texBG, ref spriteBatch, 3380, 2560);
@@ -84,11 +94,11 @@ namespace CircusCharlie.Classes
                           Vector2.One,
                           texBG);
 
-            trees = new Quad(new Vector3(15f, -20f, 30),
+            trees = new Quad(new Vector3(6f, 15f, 0.5f),
                           Vector3.Backward,
                           Vector3.Down,
-                          100f,
-                          120f,
+                          25f,
+                          30f,
                           Vector2.Zero,
                           Vector2.One,
                           content.Load<Texture2D>("Sprites/spr_trees"));
@@ -101,6 +111,9 @@ namespace CircusCharlie.Classes
         {
             room = _room;
             room.InitRoom();
+
+            room.SetActor(new IntVector2D(-1, -1), ball);
+
             ball.SetPos(startPos);
             Global.viewZoom = 2f;
         }
@@ -130,16 +143,24 @@ namespace CircusCharlie.Classes
             Game1.AddQuad(ref trees);
         }
 
+        private void DrawBrowser()
+        {
+            browser.Draw();
+        }
+
         public void Draw()
         {
             if (room == null) return;
 
 
             DrawLvl1();
+
+            DrawBrowser();
+
             room.Draw3D(new IntVector2D(0,0));
             
 
-            ball.Draw();
+            //ball.Draw();
 
             Global.SetViewCenter(ball.GetPos());
 
@@ -149,17 +170,19 @@ namespace CircusCharlie.Classes
             quadEffect.View         = matrixView;
             quadEffect.Projection   = matrixProj;
 
-            float viewX = ball.GetPos().X;
+            float viewX = 6f;
             float viewY = ball.GetPos().Y;
 
-            if (viewX < 11f) viewX = 11f;
-            if (viewY < 7f) viewY = 7f;
+            //if (viewX < 11f) viewX = 11f;
+            if (viewY < 6.1f) viewY = 6.1f;
 
-            if (viewX > 18.3f) viewX = 18.3f;
+            //if (viewX > 18.3f) viewX = 18.3f;
             if (viewY > 14.8f) viewY = 14.8f;
 
             matrixView = Matrix.CreateLookAt(new Vector3(viewX, viewY, -17),
                                              new Vector3(viewX, viewY, 0), Vector3.Down);
+
+            
         }
     }
 }

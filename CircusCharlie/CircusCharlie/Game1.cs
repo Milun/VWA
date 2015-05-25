@@ -25,12 +25,12 @@ namespace CircusCharlie
         SpriteBatch spriteBatch;
 
         private static List<Classes.Quad> quads;
-        private static List<Classes.Quad> quadsTrans;
+        private static LinkedList<Classes.Quad> quadsTrans;
 
         public Game1()
         {
             quads = new List<Classes.Quad>();
-            quadsTrans = new List<Classes.Quad>();
+            quadsTrans = new LinkedList<Classes.Quad>();
 
             graphics = new GraphicsDeviceManager(this);
 
@@ -181,15 +181,17 @@ namespace CircusCharlie
                 // Need to draw transparent quads afterwards.
                 for (int i = 0; i < quadsTrans.Count; i++)
                 {
-                    Classes.MainGame.quadEffect.Texture = quadsTrans[i].Tex;
-                    Classes.MainGame.quadEffect.Alpha = quadsTrans[i].Alpha;
+                    //Console.WriteLine(quadsTrans.ElementAt(i).Order);
+
+                    Classes.MainGame.quadEffect.Texture = quadsTrans.ElementAt(i).Tex;
+                    Classes.MainGame.quadEffect.Alpha = quadsTrans.ElementAt(i).Alpha;
                     pass.Apply();
 
                     GraphicsDevice.DrawUserIndexedPrimitives
                     <VertexPositionNormalTexture>(
                     PrimitiveType.TriangleList,
-                    quadsTrans[i].Vertices, 0, 4,
-                    quadsTrans[i].Indexes, 0, 2);
+                    quadsTrans.ElementAt(i).Vertices, 0, 4,
+                    quadsTrans.ElementAt(i).Indexes, 0, 2);
                 }
             }
 
@@ -209,7 +211,36 @@ namespace CircusCharlie
 
         public static void AddQuadTrans(ref Classes.Quad quad)
         {
-            quadsTrans.Add(quad);
+            // Need to add them in order.
+            int z = quad.Order;
+
+            if (quadsTrans.Count == 0)
+            {
+                quadsTrans.AddFirst(quad);
+            }
+            else
+            {
+                bool done = false;
+
+                // Thiiiiis... doesn't seem to work.
+
+                for (int i = 0; i < quadsTrans.Count; i++)
+                {
+                    if (z >= quadsTrans.ElementAt(i).Order)
+                    {
+                        LinkedListNode<Classes.Quad> current = quadsTrans.Find(quadsTrans.ElementAt(i));
+                        quadsTrans.AddBefore(current, quad);
+
+                        done = true;
+                        break;
+                    }
+                }
+
+                if (!done)
+                {
+                    quadsTrans.AddLast(quad);
+                }
+            }
         }
     }
 }

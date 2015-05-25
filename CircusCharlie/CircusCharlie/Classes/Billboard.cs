@@ -27,7 +27,7 @@ namespace CircusCharlie.Classes
         float animTimer = 0f;
         float animSpeed = 0.05f;
 
-        float z = 0.0f;
+        private float z = 0.0f;
 
         private IntVector2D tileMap;
 
@@ -46,8 +46,8 @@ namespace CircusCharlie.Classes
 
             sizeUV = _uvSize;
 
-            tileMap = new IntVector2D((int)(1f/_uvSize.X),
-                                      (int)(1f/_uvSize.Y));
+            tileMap = new IntVector2D((int)Math.Floor(1f / _uvSize.X),
+                                      (int)Math.Floor(1f / _uvSize.Y));
 
             origin = new Vector3(size.X * _origin.X, size.Y * _origin.Y, 0.0f);
 
@@ -62,6 +62,8 @@ namespace CircusCharlie.Classes
                             sizeUV,
                             tex
                        );
+            quad.Z = z;
+            quad.Order = (int)(z * 100f);
 
             FrameToUV(_frame);
             frame = _frame;
@@ -69,7 +71,7 @@ namespace CircusCharlie.Classes
 
         private void FrameToUV(int _frame)
         {
-            quad.SetUV(new Vector2((float)(_frame % tileMap.X), (float)(_frame / tileMap.Y))*sizeUV);
+            quad.SetUV(new Vector2((float)(_frame % tileMap.X), (float)(_frame / tileMap.X) )*sizeUV);
         }
 
         public void Flip(bool x, bool y)
@@ -77,10 +79,15 @@ namespace CircusCharlie.Classes
             quad.FlipUV(x, y);
         }
 
-        public void UpdatePos(Vector2 _pos)
+        public void UpdatePos(Vector2 _pos, float _z = 0f)
         {
             pos = _pos;
-            quad.SetPos(new Vector3(pos.X, pos.Y, z) + origin);
+            quad.SetPos(new Vector3(pos.X, pos.Y, z+_z) + origin);
+        }
+
+        public int GetFrame()
+        {
+            return frame;
         }
 
         public void SetAlpha(float a)
@@ -107,6 +114,14 @@ namespace CircusCharlie.Classes
 
             FrameToUV(frame);
 
+            animTimer = 0f;
+        }
+
+        public void SetFrame(int f)
+        {
+            frame = start = end = f;
+            FrameToUV(frame);
+            animSpeed = 0f;
             animTimer = 0f;
         }
 

@@ -72,8 +72,8 @@ namespace CircusCharlie.Classes
 
         protected void DrawShadow()
         {
-            shadow.SetPos(new Vector3(pos.X, pos.Y, 0f));
-            Game1.AddQuad(ref shadow);
+            //shadow.SetPos(new Vector3(pos.X, pos.Y, 0f));
+            //Game1.AddQuad(ref shadow);
         }
 
         public override void DrawEditor()
