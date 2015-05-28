@@ -80,6 +80,7 @@
     <Compile Include="Classes\Ball.cs" />
     <Compile Include="Classes\Billboard.cs" />
     <Compile Include="Classes\Block.cs" />
+    <Compile Include="Classes\BlockTape.cs" />
     <Compile Include="Classes\Border.cs" />
     <Compile Include="Classes\Col.cs" />
     <Compile Include="Classes\ColCircle.cs" />

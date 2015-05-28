@@ -13,7 +13,7 @@ namespace CircusCharlie.Classes
     class Block : Actor
     {
         private Sprite spr;
-        private Cube cube;
+        protected Cube cube;
 
         private Cube[] cubeFrag; // Fragments of the block which break apart.
         private Particle[] particle; // Effect which plays when the block is hit.
@@ -26,9 +26,9 @@ namespace CircusCharlie.Classes
         {
             pos = _pos;
             spr = _spr;
-            AddCol(new ColSquare(new Vector2(pos.X, pos.Y), Vector2.Zero, new Vector2(2f, 1f)));
 
-            tex = MainGame.content.Load<Texture2D>("Sprites/spr_burger");
+            AddCol(new ColSquare(new Vector2(pos.X, pos.Y), Vector2.Zero, new Vector2(2f, 1f)));
+            tex = spr.GetTexture();
 
             Reset();
         }
@@ -38,8 +38,10 @@ namespace CircusCharlie.Classes
             spr.DrawView
             (
                 pos * Global.gridSize,
-                new IntVector2D(48, 24),
-                Color.Aquamarine
+                new Vector2(48, 24),
+                new Vector2(0f, 0.5f),
+                Vector2.One*0.5f,
+                Color.White
             );
         }
 

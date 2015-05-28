@@ -14,7 +14,7 @@ namespace CircusCharlie.Classes
     class Room
     {
         public int mapWidth = 12;
-        public int mapHeight = 22;
+        public int mapHeight = 50;
 
         private Dictionary<IntVector2D, Tile> tiles;
         private List<Col> cols;
@@ -213,6 +213,7 @@ namespace CircusCharlie.Classes
                                        size));
             }
 
+
             //foreach (IntVector2D e in temp)
             {
 
@@ -228,14 +229,31 @@ namespace CircusCharlie.Classes
         public void StopRoom()
         {
             cols.Clear();
+
+            
+
             foreach (KeyValuePair<IntVector2D, Actor> e in actors)
             {
                 e.Value.Reset();
             }
+
+            
         }
 
         public void SaveRoom(string filename)
         {
+            FileStream fileStream = File.Open(filename, FileMode.Open);
+
+            /* 
+             * Set the length of filestream to 0 and flush it to the physical file.
+             *
+             * Flushing the stream is important because this ensures that
+             * the changes to the stream trickle down to the physical file.
+             * 
+             */
+            fileStream.SetLength(0);
+            fileStream.Close(); // This flushes the content, too.
+
             using (BinaryWriter writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
             {
                 // Write the amount of tiles in the whole room
@@ -399,6 +417,8 @@ namespace CircusCharlie.Classes
             {
                 e.Value.DrawEditor();
             }
+
+            
         }
 
         public void Draw3D(IntVector2D _pos)
@@ -418,6 +438,7 @@ namespace CircusCharlie.Classes
             {
                 e.Value.Draw();
             }
+
         }
 
     }

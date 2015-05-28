@@ -145,7 +145,7 @@ namespace CircusCharlie
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;   // Enable proper depth.
             GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;       // Pixelated mode for models.
-            GraphicsDevice.RasterizerState = RasterizerState.CullClockwise; // Backface
+            //GraphicsDevice.RasterizerState = RasterizerState.CullClockwise; // Backface
 
             spriteBatch.Begin(SpriteSortMode.Deferred,
                               BlendState.AlphaBlend,

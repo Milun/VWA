@@ -22,3 +22,4 @@ Content\Sprites\spr_statue.xnb
 Content\Sprites\spr_head.xnb
 Content\Sprites\spr_browser.xnb
 Content\Sprites\spr_earth.xnb
+Content\Sprites\spr_vhs.xnb

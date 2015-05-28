@@ -37,6 +37,7 @@ namespace CircusCharlie.Classes
         public static Sprite sprStatue;
         public static Sprite sprHead;
         public static Sprite sprEarth;
+        public static Sprite sprBlockTape;
 
         private bool DPressed = false;
         private bool GPressed = false;
@@ -106,7 +107,7 @@ namespace CircusCharlie.Classes
                                 ref spriteBatch,
                                 8, 8);
 
-            sprBlock = new Sprite(Content.Load<Texture2D>("Sprites/spr_special"),
+            sprBlock = new Sprite(Content.Load<Texture2D>("Sprites/spr_burger"),
                                 ref spriteBatch);
 
             texBall = Content.Load<Texture2D>("Sprites/spr_ball");
@@ -196,6 +197,7 @@ namespace CircusCharlie.Classes
             sprStatue = new Sprite(Content.Load<Texture2D>("Sprites/spr_statue"), ref spriteBatch);
             sprHead = new Sprite(Content.Load<Texture2D>("Sprites/spr_head"), ref spriteBatch);
             sprEarth = new Sprite(Content.Load<Texture2D>("Sprites/spr_earth"), ref spriteBatch);
+            sprBlockTape = new Sprite(Content.Load<Texture2D>("Sprites/spr_vhs"), ref spriteBatch);
 
             LoadMap();
             
@@ -350,6 +352,11 @@ namespace CircusCharlie.Classes
             if (currentActorSelect.X == 0f && currentActorSelect.Y == 0f)
             {
                 block = new Block(v, sprBlock);
+                rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
+            }
+            else if (currentActorSelect.X == 0f && currentActorSelect.Y == 1f)
+            {
+                block = new BlockTape(v, sprBlockTape);
                 rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
             }
 

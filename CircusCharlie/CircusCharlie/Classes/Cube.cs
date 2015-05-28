@@ -245,41 +245,21 @@ namespace CircusCharlie.Classes
             if (!nRight)  Game1.AddQuad(ref quads[2]);
             if (!nBottom) Game1.AddQuad(ref quads[3]);
             if (!nLeft)   Game1.AddQuad(ref quads[4]);
+        }
 
-            /*
-            quads[2] = new Classes.Quad
-                       (
-                            new Vector3(pos.X + 0.5f, pos.Y, 0.5f),
-                                            Vector3.Right,
-                                            Vector3.Down,
-                                            1f,
-                                            1f,
-                                            new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
-                                new Vector2(0.25f, 0.25f));
+        public void DrawTop()
+        {
+            Game1.AddQuad(ref quads[0]);
+        }
 
-            quadSides[1] = new Classes.Quad(new Vector3(pos.X - 0.5f, pos.Y, 0.5f),
-                                                Vector3.Left,
-                                                Vector3.Down,
-                                                1f,
-                                                1f,
-                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
-                                new Vector2(0.25f, 0.25f));
+        public void DrawSides()
+        {
+            if (!MainGame.HD) return;
 
-            quadSides[2] = new Classes.Quad(new Vector3(pos.X, pos.Y - 0.5f, 0.5f),
-                                                Vector3.Down,
-                                                Vector3.Forward,
-                                                1f,
-                                                1f,
-                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
-                                new Vector2(0.25f, 0.25f));
-
-            quadSides[3] = new Classes.Quad(new Vector3(pos.X, pos.Y + 0.5f, 0.5f),
-                                                Vector3.Down,
-                                                Vector3.Forward,
-                                                1f,
-                                                1f,
-                                                new Vector2((float)_off.X * 0.25f, (float)_off.Y * 0.25f),
-                                new Vector2(0.25f, 0.25f));*/
+            if (!nTop) Game1.AddQuad(ref quads[1]);
+            if (!nRight) Game1.AddQuad(ref quads[2]);
+            if (!nBottom) Game1.AddQuad(ref quads[3]);
+            if (!nLeft) Game1.AddQuad(ref quads[4]);
         }
     }
 }

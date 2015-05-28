@@ -239,6 +239,15 @@
       <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_earth.xnb</Output>
       <Time>2015-05-18T11:55:02.3379554+10:00</Time>
     </Item>
+    <Item>
+      <Source>Sprites\spr_vhs.png</Source>
+      <Name>Sprites\spr_vhs</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_vhs.xnb</Output>
+      <Time>2015-05-28T15:47:18.4646226+10:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{33E6C0E8-81C8-491B-B9E6-F657B6EF7FFF}</ContentProjectGUID>

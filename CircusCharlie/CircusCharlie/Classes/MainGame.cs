@@ -112,6 +112,7 @@ namespace CircusCharlie.Classes
             room = _room;
             room.InitRoom();
 
+            // AHA! You're the bug causer!
             room.SetActor(new IntVector2D(-1, -1), ball);
 
             ball.SetPos(startPos);
@@ -121,8 +122,14 @@ namespace CircusCharlie.Classes
         public static void StopGame()
         {
             if (room == null) return;
+
+            // Remove the ball from the save
+            room.SetActor(new IntVector2D(-1, -1), null);
             room.StopRoom();
             room = null;
+
+            
+
             Global.viewZoom = 1f;
             //Global.viewCenter = Vector2.Zero;
             Editor.showDebug = false;
@@ -177,7 +184,7 @@ namespace CircusCharlie.Classes
             if (viewY < 6.1f) viewY = 6.1f;
 
             //if (viewX > 18.3f) viewX = 18.3f;
-            if (viewY > 14.8f) viewY = 14.8f;
+            if (viewY > 22.8f) viewY = 22.8f;
 
             matrixView = Matrix.CreateLookAt(new Vector3(viewX, viewY, -17),
                                              new Vector3(viewX, viewY, 0), Vector3.Down);
