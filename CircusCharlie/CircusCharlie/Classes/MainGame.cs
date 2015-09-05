@@ -69,7 +69,7 @@ namespace CircusCharlie.Classes
             spriteBatch = _spriteBatch;
             sprBall = new Sprite(content.Load<Texture2D>("Sprites/spr_ball"), ref spriteBatch);
 
-            ball = new Ball(sprBall);
+            ball = new Ball(content.Load<Texture2D>("Sprites/spr_sphere"));
 
             texBG = content.Load<Texture2D>("Sprites/spr_bg");
 
@@ -153,6 +153,19 @@ namespace CircusCharlie.Classes
         private void DrawBrowser()
         {
             browser.Draw();
+
+            //214
+            //802
+
+            Color temp = Color.DarkBlue;
+
+            if (ball.isFuelCharging()) temp.A = 100;
+
+            float barWidth = 802f - 214f - 70f * 2f;
+            Editor.sprDebug.Draw(new IntVector2D(284, Game1.SCREENHEIGHT-21),
+                                 new IntVector2D((int)(ball.Fuel * barWidth),
+                                                15),
+                                 temp);
         }
 
         public void Draw()
@@ -160,7 +173,7 @@ namespace CircusCharlie.Classes
             if (room == null) return;
 
 
-            DrawLvl1();
+            //DrawLvl1();
 
             DrawBrowser();
 
@@ -169,7 +182,7 @@ namespace CircusCharlie.Classes
 
             //ball.Draw();
 
-            Global.SetViewCenter(ball.GetPos());
+            Global.SetViewCenter(new Vector2(ball.GetPos().X, ball.GetPos().Y));
 
             ////////
             // 3D //
@@ -186,6 +199,7 @@ namespace CircusCharlie.Classes
             //if (viewX > 18.3f) viewX = 18.3f;
             if (viewY > 22.8f) viewY = 22.8f;
 
+            // 17
             matrixView = Matrix.CreateLookAt(new Vector3(viewX, viewY, -17),
                                              new Vector3(viewX, viewY, 0), Vector3.Down);
 

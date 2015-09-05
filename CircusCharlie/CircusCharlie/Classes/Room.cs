@@ -274,7 +274,7 @@ namespace CircusCharlie.Classes
                 foreach (KeyValuePair<IntVector2D, Actor> e in actors)
                 {
                     // Normal breakable block
-                    if (e.Value.GetType() == typeof(Block))
+                    if (e.Value.GetType() == typeof(BlockBurger))
                     {
                         writer.Write((int)(0));
                         writer.Write(e.Key.X);
@@ -314,12 +314,32 @@ namespace CircusCharlie.Classes
                         continue;
                     }
 
+                    // VHS block (breakable but optional)
+                    if (e.Value.GetType() == typeof(BlockTape))
+                    {
+                        writer.Write((int)(3));
+                        writer.Write(e.Key.X);
+                        writer.Write(e.Key.Y);
+                        writer.Write((int)e.Value.GetValue("health"));
+                        continue;
+                    }
+
+                    // Doom block
+                    if (e.Value.GetType() == typeof(BlockDoom))
+                    {
+                        writer.Write((int)(4));
+                        writer.Write(e.Key.X);
+                        writer.Write(e.Key.Y);
+                        continue;
+                    }
                     
                 }
             }
         }
         public void LoadRoom(string filename, ref Sprite spr, ref Sprite _block)
         {
+            //return;
+
             if (File.Exists(filename))
             {
                 using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
@@ -360,7 +380,20 @@ namespace CircusCharlie.Classes
                         // Make block
                         if (type == 0)
                         {
-                            Actor block = new Block(new Vector2(posX, posY), _block);
+                            Actor block = new BlockBurger(new Vector3(posX, posY, 0f), _block);
+                            actors.Add(new IntVector2D(posX, posY), block);
+                            continue;
+                        }
+                        else if (type == 3)
+                        {
+                            int health = reader.ReadInt32();
+                            Actor block = new BlockTape(new Vector3(posX, posY, 0f), Editor.sprBlockTape, Editor.sprBlockTapeSticker, health);
+                            actors.Add(new IntVector2D(posX, posY), block);
+                            continue;
+                        }
+                        else if (type == 4)
+                        {
+                            Actor block = new BlockDoom(new Vector3(posX, posY, 0f), Editor.sprDoom);
                             actors.Add(new IntVector2D(posX, posY), block);
                             continue;
                         }
@@ -379,7 +412,7 @@ namespace CircusCharlie.Classes
                                 readFlipY = reader.ReadBoolean();
                                 if (readFlipY) writeFlipY = -1f;
 
-                                Actor statue = new EnemyStatue(new Vector2(X, Y), Editor.sprStatue, -1f, writeFlipY);
+                                Actor statue = new EnemyStatue(new Vector3(X, Y, 0f), Editor.sprStatue, -1f, writeFlipY);
                                 actors.Add(new IntVector2D(posX, posY), statue);
                                 break;
 
@@ -388,7 +421,7 @@ namespace CircusCharlie.Classes
                                 readFlipY = reader.ReadBoolean();
                                 if (readFlipY) writeFlipY = -1f;
 
-                                Actor head = new EnemyHead(new Vector2(X, Y), Editor.sprHead, Editor.sprEarth, writeFlipY);
+                                Actor head = new EnemyHead(new Vector3(X, Y, 0f), Editor.sprHead, Editor.sprEarth, writeFlipY);
                                 actors.Add(new IntVector2D(posX, posY), head);
                                 break;
 

@@ -16,11 +16,11 @@ namespace CircusCharlie.Classes
         private bool stunned = false;
         private bool turning = false;
 
-        public EnemyStatue(Vector2 _pos, Sprite _spr, float _flipX, float _flipY) : base(_pos, _spr, _flipX, _flipY, Vector2.One*2.5f, Vector2.One*0.125f, new Vector2(0f, 0.5f), 0.8f)
+        public EnemyStatue(Vector3 _pos, Sprite _spr, float _flipX, float _flipY) : base(_pos, _spr, _flipX, _flipY, Vector2.One*2.5f, Vector2.One*0.125f, new Vector2(0f, 0.5f), 0.8f)
         {
             Reset();
 
-            AddTrig(new ColSquare(pos,
+            AddTrig(new ColSquare(new Vector2(pos.X, pos.Y),
                                   new Vector2(-0.25f, -1.2f - 1.2f * flipY),
                                   new Vector2(0.5f, 2.4f)));
         }
@@ -69,7 +69,7 @@ namespace CircusCharlie.Classes
                         MainGame.room.CheckCol(new Vector2(pos.X + 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f)) == Vector2.Zero
                        )
                     {
-                        pos += new Vector2(xSpeed, 0.0f);
+                        pos += new Vector3(xSpeed, 0.0f, 0f);
                         bill.UpdatePos(pos);
                         UpdateCol();
                     }
@@ -91,7 +91,7 @@ namespace CircusCharlie.Classes
                         MainGame.room.CheckCol(new Vector2(pos.X - 0.75f, pos.Y - 1.5f * flipY), new Vector2(0.2f, 2f)) == Vector2.Zero
                        )
                     {
-                        pos -= new Vector2(xSpeed, 0.0f);
+                        pos -= new Vector3(xSpeed, 0.0f, 0f);
                         bill.UpdatePos(pos);
                         UpdateCol();
                     }

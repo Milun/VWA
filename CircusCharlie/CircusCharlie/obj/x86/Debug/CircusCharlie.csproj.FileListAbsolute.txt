@@ -8,7 +8,6 @@ C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharli
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_black.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cursor.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_select.xnb
-C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_cross.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_white.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_bg.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_ball.xnb
@@ -29,3 +28,7 @@ C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharli
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_browser.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_earth.xnb
 C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_vhs.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_doom.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_vhs_sticker.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\spr_sphere.xnb
+C:\Users\Milton\Documents\Visual Studio 2013\Projects\CircusCharlie\CircusCharlie\CircusCharlie\bin\x86\Debug\Content\Sprites\burgerMeat.xnb

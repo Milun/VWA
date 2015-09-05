@@ -19,15 +19,15 @@ namespace CircusCharlie.Classes
 
         bool explode = false;
 
-        public EnemyBullet(Vector2 _pos, Sprite _spr, EnemyHead _head)
-            : base(_pos, _spr, 1f, 1f, Vector2.One*0.8f, Vector2.One * 0.25f, Vector2.Zero, 0.0f, -0.1f)
+        public EnemyBullet(Vector3 _pos, Sprite _spr, EnemyHead _head)
+            : base(_pos, _spr, 1f, 1f, Vector2.One*0.8f, Vector2.One * 0.25f, Vector2.Zero, 0.0f)
         {
             head = _head;
 
             Die();
             explode = false;
 
-            AddTrig(new ColCircle(pos,
+            AddTrig(new ColCircle(new Vector2(pos.X, pos.Y),
                                   Vector2.Zero,
                                   diam * 0.7f));
         }
@@ -60,14 +60,14 @@ namespace CircusCharlie.Classes
             Destroy();
         }
 
-        public void ShootBullet(Vector2 newStartPos)
+        public void ShootBullet(Vector3 newStartPos)
         {
             startPos = newStartPos;
 
             Reset();
 
             // Get vector to ball.
-            Vector2 ball = MainGame.ball.GetPos();
+            Vector2 ball = new Vector2(MainGame.ball.GetPos().X, MainGame.ball.GetPos().Y);
             Vector2 vec = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
             vec.Normalize();
 
@@ -110,7 +110,7 @@ namespace CircusCharlie.Classes
 
             // Check if the bullet has hit something.
             // Get vector to ball.
-            Vector2 ball = MainGame.ball.GetPos();
+            Vector3 ball = MainGame.ball.GetPos();
             Vector2 vec = new Vector2(ball.X - pos.X, ball.Y - pos.Y);
 
             // First the player
@@ -126,7 +126,7 @@ namespace CircusCharlie.Classes
             Vector2 collision = MainGame.room.CheckCol(this);
 
             // Move
-            pos += moveVector;
+            pos += new Vector3(moveVector.X, moveVector.Y, 0f);
 
             bill.UpdatePos(pos);
             bill.Animate();

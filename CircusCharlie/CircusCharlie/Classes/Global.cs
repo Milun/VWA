@@ -15,6 +15,8 @@ namespace CircusCharlie.Classes
         public static Vector2   viewCenter = Vector2.Zero;
         public static Vector2   viewSize = Vector2.Zero;
 
+        public static float deltaTime = 0f;
+
         public static readonly int spriteScale = 3;    // Each pixel corresponds to this many pixels.
         public static readonly int tileSize = 8;       // Size of individual tiles in file.
 
@@ -31,6 +33,13 @@ namespace CircusCharlie.Classes
         public static void SetViewCenter(Vector2 pos)
         {
             viewCenter = pos - viewSize;
+        }
+
+        public static float Random(float min, float max)
+        {
+            int r = Editor.random.Next((int)(min * 100f), (int)(max * 100f));
+
+            return r/100f;
         }
 
     }

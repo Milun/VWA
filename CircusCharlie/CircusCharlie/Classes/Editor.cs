@@ -18,7 +18,6 @@ namespace CircusCharlie.Classes
         Texture2D texBlack;
         Texture2D texWhite;
         Texture2D texCursor;
-        Texture2D texCross;
         Texture2D texSelect;
         Texture2D texBall;
         Texture2D texTools;
@@ -34,22 +33,27 @@ namespace CircusCharlie.Classes
         public static Color colorDebug2;
         public static Color colorDebug3;
 
+        public static Sprite sprDoom;
         public static Sprite sprStatue;
         public static Sprite sprHead;
         public static Sprite sprEarth;
         public static Sprite sprBlockTape;
+        public static Sprite sprBlockTapeSticker;
 
         private bool DPressed = false;
         private bool GPressed = false;
         private bool SPressed = false;
         private bool PPressed = false;
+        private bool ClickPressed = false;
         private bool gameRunning = false;
 
         bool placingActor = false;
 
+        int actorMode = 0;
+
         private MainGame mainGame;
 
-        public static bool showDebug = true;
+        public static bool showDebug = false;
         private bool showGrid = false;
 
         private Room[,] rooms;
@@ -116,7 +120,6 @@ namespace CircusCharlie.Classes
             texWhite = Content.Load<Texture2D>("Sprites/spr_white");
             texCursor = Content.Load<Texture2D>("Sprites/spr_cursor");
             texSelect = Content.Load<Texture2D>("Sprites/spr_select");
-            texCross = Content.Load<Texture2D>("Sprites/spr_cross");
             texTools = Content.Load<Texture2D>("Sprites/spr_tools");
 
             Color[] data = new Color[texWhite.Width * texWhite.Height];
@@ -197,7 +200,11 @@ namespace CircusCharlie.Classes
             sprStatue = new Sprite(Content.Load<Texture2D>("Sprites/spr_statue"), ref spriteBatch);
             sprHead = new Sprite(Content.Load<Texture2D>("Sprites/spr_head"), ref spriteBatch);
             sprEarth = new Sprite(Content.Load<Texture2D>("Sprites/spr_earth"), ref spriteBatch);
+            
             sprBlockTape = new Sprite(Content.Load<Texture2D>("Sprites/spr_vhs"), ref spriteBatch);
+            sprBlockTapeSticker = new Sprite(Content.Load<Texture2D>("Sprites/spr_vhs_sticker"), ref spriteBatch);
+            
+            sprDoom = new Sprite(Content.Load<Texture2D>("Sprites/spr_doom"), ref spriteBatch);
 
             LoadMap();
             
@@ -211,6 +218,10 @@ namespace CircusCharlie.Classes
 
             
             currentActorSelect = new IntVector2D(0, 0);
+
+            /*rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D(9, 9),
+                                                         new EnemyCursor(Vector2.Zero*9f,
+                                                                         new Sprite(texCursor, ref spriteBatch)));*/
         }
 
         private void SaveCurrentMap()
@@ -351,12 +362,17 @@ namespace CircusCharlie.Classes
             // Spawn a block
             if (currentActorSelect.X == 0f && currentActorSelect.Y == 0f)
             {
-                block = new Block(v, sprBlock);
+                block = new BlockBurger(new Vector3(v.X, v.Y, 0f), sprBlock);
                 rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
             }
             else if (currentActorSelect.X == 0f && currentActorSelect.Y == 1f)
             {
-                block = new BlockTape(v, sprBlockTape);
+                block = new BlockTape(new Vector3(v.X, v.Y, 0f), sprBlockTape, sprBlockTapeSticker, actorMode % 4);
+                rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
+            }
+            else if (currentActorSelect.X == 0f && currentActorSelect.Y == 2f)
+            {
+                block = new BlockDoom(new Vector3(v.X, v.Y, 0f), sprDoom);
                 rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
             }
 
@@ -365,6 +381,7 @@ namespace CircusCharlie.Classes
                 //rooms[currentRoom.X, currentRoom.Y].SetActor(new IntVector2D((int)v.X, (int)v.Y), block);
 
                 placingActor = false;
+                actorMode = 0;
                 return;
             }
 
@@ -373,15 +390,15 @@ namespace CircusCharlie.Classes
 
             if (currentActorSelect.X == 2f && currentActorSelect.Y == 0f)
             {
-                enemy = new EnemyStatue(new Vector2(v.X+0.5f, v.Y+1f), sprStatue, -1f, 1f);
+                enemy = new EnemyStatue(new Vector3(v.X + 0.5f, v.Y + 1f, 0f), sprStatue, -1f, 1f);
             }
             else if (currentActorSelect.X == 2f && currentActorSelect.Y == 1f)
             {
-                enemy = new EnemyStatue(new Vector2(v.X+0.5f, v.Y), sprStatue, -1f, -1f);
+                enemy = new EnemyStatue(new Vector3(v.X + 0.5f, v.Y, 0f), sprStatue, -1f, -1f);
             }
             else if (currentActorSelect.X == 1f && currentActorSelect.Y == 0f)
             {
-                enemy = new EnemyHead(new Vector2(v.X+1f, v.Y+1f), sprHead, sprEarth, 1f);
+                enemy = new EnemyHead(new Vector3(v.X + 1f, v.Y + 1f, 0f), sprHead, sprEarth, 1f);
             }
 
             if (enemy == null) return;
@@ -396,6 +413,7 @@ namespace CircusCharlie.Classes
                 );
 
                 placingActor = false;
+                actorMode = 0;
                 return;
             }
         }
@@ -544,6 +562,8 @@ namespace CircusCharlie.Classes
 
         public void Draw(bool isActive)
         {
+            actorMode = Mouse.GetState().ScrollWheelValue/180;
+
             if (!gameRunning)
             {
                 LaunchGame();
@@ -601,23 +621,23 @@ namespace CircusCharlie.Classes
             {
                 spriteBatch.Draw(texCursor, new Rectangle(Mouse.GetState().X,
                                                           Mouse.GetState().Y,
-                                                          12,
-                                                          19),
+                                                          17,
+                                                          32),
                                             new Rectangle(12,
                                                           0,
-                                                          12,
-                                                          19), Color.White);
+                                                          17,
+                                                          32), Color.White);
             }
             else
             { 
                 spriteBatch.Draw(texCursor, new Rectangle(Mouse.GetState().X,
                                                           Mouse.GetState().Y,
                                                           12,
-                                                          19),
+                                                          32),
                                             new Rectangle(0,
                                                           0,
                                                           12,
-                                                          19), Color.White);
+                                                          32), Color.White);
             }
 
             sprDebug.DrawView(Global.viewCenter, Color.White);
@@ -627,6 +647,11 @@ namespace CircusCharlie.Classes
             spriteBatch.DrawString(font,
                                    "HD: " + hd,
                                    new Vector2(20, 20),
+                                   Color.White);
+
+            spriteBatch.DrawString(font,
+                                   "ySpeed: " + MainGame.ball.GetYspeed(),
+                                   new Vector2(20, 40),
                                    Color.White);
         }
     }

@@ -13,7 +13,7 @@ namespace CircusCharlie.Classes
         private Texture2D tex;
 
         private Vector2 size;
-        private Vector2 pos;
+        private Vector3 pos;
         private Vector3 origin;
 
         private Vector2 sizeUV;
@@ -27,22 +27,19 @@ namespace CircusCharlie.Classes
         float animTimer = 0f;
         float animSpeed = 0.05f;
 
-        private float z = 0.0f;
-
         private IntVector2D tileMap;
 
+
         public Billboard(Texture2D _tex,
-                         Vector2 _pos,
+                         Vector3 _pos,
                          Vector2 _origin,
                          Vector2 _size,
-                         int _frame,
-                         Vector2 _uvSize,
-                         float _z = 0.0f)
+                         Vector2 _uvOff,
+                         Vector2 _uvSize)
         {
             tex = _tex;
             pos = _pos;
             size = _size;
-            z = _z;
 
             sizeUV = _uvSize;
 
@@ -53,7 +50,45 @@ namespace CircusCharlie.Classes
 
             quad = new Classes.Quad
                        (
-                            new Vector3(pos.X, pos.Y, z) + origin,
+                            pos + origin,
+                            Vector3.Backward,
+                            Vector3.Down,
+                            size.X,
+                            size.Y,
+                            _uvOff,
+                            sizeUV,
+                            tex
+                       );
+
+            // LOOK OVER THIS LATER
+            quad.Z = pos.Z;
+            quad.Order = (int)(pos.Z * 100f);
+
+            animSpeed = 0;
+            frame = 1;
+        }
+
+        public Billboard(Texture2D _tex,
+                         Vector3 _pos,
+                         Vector2 _origin,
+                         Vector2 _size,
+                         int _frame,
+                         Vector2 _uvSize)
+        {
+            tex = _tex;
+            pos = _pos;
+            size = _size;
+
+            sizeUV = _uvSize;
+
+            tileMap = new IntVector2D((int)Math.Floor(1f / _uvSize.X),
+                                      (int)Math.Floor(1f / _uvSize.Y));
+
+            origin = new Vector3(size.X * _origin.X, size.Y * _origin.Y, 0.0f);
+
+            quad = new Classes.Quad
+                       (
+                            pos + origin,
                             Vector3.Backward,
                             Vector3.Down,
                             size.X,
@@ -62,8 +97,10 @@ namespace CircusCharlie.Classes
                             sizeUV,
                             tex
                        );
-            quad.Z = z;
-            quad.Order = (int)(z * 100f);
+
+            // LOOK OVER THIS LATER
+            quad.Z = pos.Z;
+            quad.Order = (int)(pos.Z * 100f);
 
             FrameToUV(_frame);
             frame = _frame;
@@ -74,15 +111,23 @@ namespace CircusCharlie.Classes
             quad.SetUV(new Vector2((float)(_frame % tileMap.X), (float)(_frame / tileMap.X) )*sizeUV);
         }
 
+        public void SetUV(Vector2 uv)
+        {
+            quad.SetUV(uv);
+        }
+
+
         public void Flip(bool x, bool y)
         {
             quad.FlipUV(x, y);
         }
 
-        public void UpdatePos(Vector2 _pos, float _z = 0f)
+        public void UpdatePos(Vector3 _pos)
         {
             pos = _pos;
-            quad.SetPos(new Vector3(pos.X, pos.Y, z+_z) + origin);
+            quad.SetPos(pos + origin);
+
+            quad.Order = (int)(_pos.Z * 100f);
         }
 
         public int GetFrame()
@@ -95,9 +140,9 @@ namespace CircusCharlie.Classes
             quad.Alpha = a;
         }
 
-        public void SetRotation(float r)
+        public void SetRotation(float r, float r2 = 0.0f)
         {
-            quad.RotateZ(r);
+            quad.RotateZ(r, r2);
         }
 
         public void UpdateVerts(float width, float height)

@@ -3,7 +3,6 @@ Content\Sprites\spr_wall.xnb
 Content\Sprites\spr_black.xnb
 Content\Sprites\spr_cursor.xnb
 Content\Sprites\spr_select.xnb
-Content\Sprites\spr_cross.xnb
 Content\Sprites\spr_white.xnb
 Content\Sprites\spr_bg.xnb
 Content\Sprites\spr_ball.xnb
@@ -23,3 +22,7 @@ Content\Sprites\spr_head.xnb
 Content\Sprites\spr_browser.xnb
 Content\Sprites\spr_earth.xnb
 Content\Sprites\spr_vhs.xnb
+Content\Sprites\spr_doom.xnb
+Content\Sprites\spr_vhs_sticker.xnb
+Content\Sprites\spr_sphere.xnb
+Content\Sprites\burgerMeat.xnb

@@ -24,10 +24,10 @@ namespace CircusCharlie.Classes
         private Vector2 frameSize;
         private Vector2 billSize;
 
-        protected Vector2 startPos;
+        protected Vector3 startPos;
         private Vector2 origin;
 
-        public Enemy(Vector2 _pos, Sprite _spr, float _flipX, float _flipY, Vector2 _billSize, Vector2 _frameSize, Vector2 _origin, float shadowSize = 0f, float z = 0f)
+        public Enemy(Vector3 _pos, Sprite _spr, float _flipX, float _flipY, Vector2 _billSize, Vector2 _frameSize, Vector2 _origin, float shadowSize = 0f)
         {
             pos = _pos;
             startPos = pos;
@@ -47,8 +47,7 @@ namespace CircusCharlie.Classes
                                  new Vector2(origin.X*flipX, -origin.Y*flipY),
                                  _billSize,
                                  6,
-                                 frameSize,
-                                 z);
+                                 frameSize);
             
             if (shadowSize > 0f)
             { 
@@ -56,7 +55,7 @@ namespace CircusCharlie.Classes
                            (
                                 new Vector3(pos.X,
                                             pos.Y-flipY*0.05f,
-                                            z),
+                                            pos.Z),
                                 Vector3.Up,
                                 Vector3.Forward,
                                 shadowSize,

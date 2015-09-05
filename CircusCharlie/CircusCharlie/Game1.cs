@@ -169,6 +169,13 @@ namespace CircusCharlie
                 {
                     Classes.MainGame.quadEffect.Texture = quads[i].Tex;
                     Classes.MainGame.quadEffect.Alpha = quads[i].Alpha;
+
+                    Classes.MainGame.quadEffect.FogEnabled = true;
+                    Classes.MainGame.quadEffect.FogColor = Vector3.Zero;
+                    Classes.MainGame.quadEffect.FogStart = 20f;
+                    Classes.MainGame.quadEffect.FogEnd = 50f;
+
+
                     pass.Apply();
 
                     GraphicsDevice.DrawUserIndexedPrimitives
@@ -185,6 +192,13 @@ namespace CircusCharlie
 
                     Classes.MainGame.quadEffect.Texture = quadsTrans.ElementAt(i).Tex;
                     Classes.MainGame.quadEffect.Alpha = quadsTrans.ElementAt(i).Alpha;
+
+                    Classes.MainGame.quadEffect.FogEnabled = true;
+                    Classes.MainGame.quadEffect.FogColor = Vector3.Zero;
+                    Classes.MainGame.quadEffect.FogStart = 20f;
+                    Classes.MainGame.quadEffect.FogEnd = 50f;
+
+                    
                     pass.Apply();
 
                     GraphicsDevice.DrawUserIndexedPrimitives
@@ -202,6 +216,10 @@ namespace CircusCharlie
             // Clear the Quads because I don't see a better way of doing this.
             quads.Clear();
             quadsTrans.Clear();
+
+            CircusCharlie.Classes.Global.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            //Console.WriteLine(gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public static void AddQuad(ref Classes.Quad quad)

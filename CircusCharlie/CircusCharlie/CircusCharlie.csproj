@@ -80,6 +80,8 @@
     <Compile Include="Classes\Ball.cs" />
     <Compile Include="Classes\Billboard.cs" />
     <Compile Include="Classes\Block.cs" />
+    <Compile Include="Classes\BlockBurger.cs" />
+    <Compile Include="Classes\BlockDoom.cs" />
     <Compile Include="Classes\BlockTape.cs" />
     <Compile Include="Classes\Border.cs" />
     <Compile Include="Classes\Col.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Classes\Editor.cs" />
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\EnemyBullet.cs" />
+    <Compile Include="Classes\EnemyCursor.cs" />
     <Compile Include="Classes\EnemyHead.cs" />
     <Compile Include="Classes\EnemyStatue.cs" />
     <Compile Include="Classes\Global.cs" />

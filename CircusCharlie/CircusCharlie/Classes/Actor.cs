@@ -11,7 +11,7 @@ namespace CircusCharlie.Classes
     class Actor
     {
         protected bool destroyed = false;
-        protected Vector2 pos = Vector2.Zero;
+        protected Vector3 pos = Vector3.Zero;
 
         public List<Col> cols;
         public List<Col> trigs;
@@ -72,7 +72,7 @@ namespace CircusCharlie.Classes
 
         }
 
-        public Vector2 GetPos()
+        public Vector3 GetPos()
         {
             return pos;
         }
@@ -218,12 +218,12 @@ namespace CircusCharlie.Classes
         {
             foreach (Col e in cols)
             {
-                e.UpdatePos(pos);
+                e.UpdatePos(new Vector2(pos.X, pos.Y));
             }
 
             foreach (Col e in trigs)
             {
-                e.UpdatePos(pos);
+                e.UpdatePos(new Vector2(pos.X, pos.Y));
             }
         }
     }

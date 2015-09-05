@@ -26,12 +26,12 @@ namespace CircusCharlie.Classes
         int faceDirection = 0;
         int faceSpeed = 4;
 
-        public EnemyHead(Vector2 _pos, Sprite _spr, Sprite _spr2, float _flipY)
+        public EnemyHead(Vector3 _pos, Sprite _spr, Sprite _spr2, float _flipY)
             : base(_pos, _spr, -1f, _flipY, new Vector2(1.5f, 2f), new Vector2(0.33f, 0.25f), new Vector2(0f, 0.5f), 2.0f)
         {
-            bullet = new EnemyBullet(new Vector2(pos.X, pos.Y - 1f), _spr2, this);
+            bullet = new EnemyBullet(new Vector3(pos.X, pos.Y - 1f, pos.Z), _spr2, this);
 
-            AddCol(new ColSquare(pos,
+            AddCol(new ColSquare(new Vector2(pos.X, pos.Y),
                                  new Vector2(-0.3f, -1.7f),
                                  new Vector2(0.6f, 1.7f)));
         }
@@ -56,8 +56,8 @@ namespace CircusCharlie.Classes
         public override void Draw()
         {
             // Look at the ball            
-            Vector2 ball = MainGame.ball.GetPos();
-            Vector2 ballPos = pos - ball;
+            Vector3 ball = MainGame.ball.GetPos();
+            Vector3 ballPos = pos - ball;
 
             bill.SetFrame(faceDirection / faceSpeed + 1 + mode * 3);
 
@@ -108,7 +108,11 @@ namespace CircusCharlie.Classes
 
                 if (silly != 0)
                 { 
-                    bill.UpdatePos(new Vector2(pos.X + (float)((silly/5) % 2) * 0.01f, pos.Y));
+                    bill.UpdatePos(new Vector3(
+                                                pos.X + (float)((silly/5) % 2) * 0.01f,
+                                                pos.Y,
+                                                pos.Z)
+                                   );
                 }
                 else
                 {
@@ -155,7 +159,7 @@ namespace CircusCharlie.Classes
 
                 if (interval != 220)
                 {
-                    bill.UpdatePos(new Vector2(pos.X + (float)((shake / 2) % 2) / ((shake + 7)), pos.Y));
+                    bill.UpdatePos(new Vector3(pos.X + (float)((shake / 2) % 2) / ((shake + 7)), pos.Y, pos.Z));
                 }
                 else
                 {
@@ -172,8 +176,9 @@ namespace CircusCharlie.Classes
             {
                 if (interval == 220 && sillyMode != 1)
                 {
-                    bullet.ShootBullet(new Vector2(pos.X - 0.2f - 0.2f * (faceDirection/faceSpeed),
-                                                   pos.Y - 1f));
+                    bullet.ShootBullet(new Vector3(pos.X - 0.2f - 0.2f * (faceDirection/faceSpeed),
+                                                   pos.Y - 1f,
+                                                   0f));
                 }
 
                 interval++;
@@ -185,7 +190,7 @@ namespace CircusCharlie.Classes
 
                     if (interval != 260)
                     {
-                        bill.UpdatePos(new Vector2(pos.X + (float)(((interval - 220) / 5) % 2) * 0.01f, pos.Y));
+                        bill.UpdatePos(new Vector3(pos.X + (float)(((interval - 220) / 5) % 2) * 0.01f, pos.Y, pos.Z));
                     }
                     else
                     {

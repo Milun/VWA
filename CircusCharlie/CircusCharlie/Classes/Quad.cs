@@ -78,10 +78,34 @@ namespace CircusCharlie.Classes
 
             RotX = RotY = RotZ = 0.0f;
 
-            textureUpperRight = UVPos;
-            textureUpperLeft = new Vector2(UVPos.X + UVSize.X, UVPos.Y);
-            textureLowerRight = new Vector2(UVPos.X, UVPos.Y + UVSize.Y);
-            textureLowerLeft = UVPos + UVSize;
+            if (uvSize.X > 0f && uvSize.Y > 0f)
+            { 
+                textureUpperRight = UVPos;
+                textureUpperLeft = new Vector2(UVPos.X + Math.Abs(UVSize.X), UVPos.Y);
+                textureLowerRight = new Vector2(UVPos.X, UVPos.Y + Math.Abs(UVSize.Y));
+                textureLowerLeft = UVPos + new Vector2(Math.Abs(UVSize.X), Math.Abs(UVSize.Y));
+            }
+            else if (uvSize.X <= 0f && uvSize.Y > 0f)
+            {
+                textureUpperLeft = UVPos;
+                textureUpperRight = new Vector2(UVPos.X + Math.Abs(UVSize.X), UVPos.Y);
+                textureLowerLeft = new Vector2(UVPos.X, UVPos.Y + Math.Abs(UVSize.Y));
+                textureLowerRight = UVPos + new Vector2(Math.Abs(UVSize.X), Math.Abs(UVSize.Y));
+            }
+            else if (uvSize.X > 0f && uvSize.Y <= 0f)
+            {
+                textureLowerRight = UVPos;
+                textureLowerLeft = new Vector2(UVPos.X + Math.Abs(UVSize.X), UVPos.Y);
+                textureUpperRight = new Vector2(UVPos.X, UVPos.Y + Math.Abs(UVSize.Y));
+                textureUpperLeft = UVPos + new Vector2(Math.Abs(UVSize.X), Math.Abs(UVSize.Y));
+            }
+            else
+            {
+                textureLowerLeft = UVPos;
+                textureLowerRight = new Vector2(UVPos.X + Math.Abs(UVSize.X), UVPos.Y);
+                textureUpperLeft = new Vector2(UVPos.X, UVPos.Y + Math.Abs(UVSize.Y));
+                textureUpperRight = UVPos + new Vector2(Math.Abs(UVSize.X), Math.Abs(UVSize.Y));
+            }
 
             // Calculate the quad corners
             Left = Vector3.Cross( normal, Up );
@@ -122,13 +146,20 @@ namespace CircusCharlie.Classes
             FillVertices();
         }
 
-        public void RotateZ(float r)
+        public void RotateZ(float r, float r2 = 0.0f)
         {
             RotZ = r;
-            Up = new Vector3((float)Math.Cos(r*3.14159/180f), (float)Math.Sin(r*3.14159/180f), 0.0f);
+            Up = new Vector3((float)Math.Sin(r*3.14159/180f),
+                             -(float)Math.Cos(r*3.14159/180f),
+                             0.0f);
+
+            Normal = new Vector3((float)Math.Sin(r2 * 3.14159 / 180f),
+                                0.0f,
+                                -(float)Math.Cos(r2 * 3.14159 / 180f));
 
             // Calculate the quad corners
             Left = Vector3.Cross(Normal, Up);
+
             Vector3 uppercenter = (Up * Height / 2) + Origin;
             UpperLeft = uppercenter + (Left * Width / 2);
             UpperRight = uppercenter - (Left * Width / 2);
